@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "frames": {
+    "wave": {
+      "files": [
+        "frames/wave-01.png",
+        "frames/wave-02.png",
+        "frames/wave-03.png",
+        "frames/wave-04.png",
+        "frames/wave-05.png",
+        "frames/wave-06.png",
+        "frames/wave-07.png",
+        "frames/wave-08.png"
+      ],
+      "count": 8,
+      "canvas": {
+        "width": 260,
+        "height": 413
+      },
+      "frameMs": 150,
+      "order": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        6,
+        5,
+        6,
+        7,
+        8,
+        1
+      ],
+      "durationOverrides": {
+        "1": 400
+      }
+    },
+    "idle": {
+      "files": [
+        "frames/wave-01.png"
+      ],
+      "count": 1,
+      "canvas": {
+        "width": 260,
+        "height": 413
+      },
+      "frameMs": 150,
+      "order": [
+        1
+      ],
+      "durationOverrides": {},
+      "blink": null
+    }
+  },
+  "extraction": {
+    "wave": {
+      "source": "naicha-cheer-8-v2-clean.png",
+      "sourceBounds": [
+        [
+          37,
+          160,
+          249,
+          565
+        ],
+        [
+          303,
+          160,
+          523,
+          565
+        ],
+        [
+          564,
+          160,
+          796,
+          565
+        ],
+        [
+          848,
+          160,
+          1078,
+          565
+        ],
+        [
+          1112,
+          160,
+          1349,
+          565
+        ],
+        [
+          1368,
+          160,
+          1620,
+          565
+        ],
+        [
+          1654,
+          160,
+          1889,
+          565
+        ],
+        [
+          1939,
+          160,
+          2148,
+          565
+        ]
+      ],
+      "footY": [
+        408,
+        408,
+        408,
+        408,
+        408,
+        408,
+        408,
+        408
+      ],
+      "coreAlphaThreshold": 32,
+      "discardAlphaAtMost": 8,
+      "alignment": "bottom-center"
+    }
+  },
+  "eyes": {
+    "centers": [
+      [
+        87.46,
+        108.07
+      ],
+      [
+        154.08,
+        107.54
+      ]
+    ],
+    "bounds": [
+      [
+        82,
+        103,
+        94,
+        114
+      ],
+      [
+        149,
+        102,
+        160,
+        114
+      ]
+    ],
+    "detected": true,
+    "blinkDisabledReason": "Closed-eye asset unavailable/ambiguous or face texture sample out of bounds; blink disabled."
+  }
+}

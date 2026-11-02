@@ -1,0 +1,22 @@
+[
+  {
+    "name": "xiaoye",
+    "label": "小葉",
+    "note": "葉芽在頭部 · 9 個零件 + 4 格走路"
+  },
+  {
+    "name": "naicha",
+    "label": "奶茶",
+    "note": "圍巾在身體 · 9 個零件 + 4 格走路"
+  },
+  {
+    "name": "xiaoye-kit",
+    "label": "小葉球衣",
+    "note": "熱身小跳 · 8 格 wave＋idle；無 walk、blink"
+  },
+  {
+    "name": "naicha-kit",
+    "label": "奶茶球衣",
+    "note": "舉手歡呼 · 8 格 wave＋idle；無 walk、blink"
+  }
+]

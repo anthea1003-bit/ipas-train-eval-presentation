@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "frames": {
+    "wave": {
+      "files": [
+        "frames/wave-01.png",
+        "frames/wave-02.png",
+        "frames/wave-03.png",
+        "frames/wave-04.png",
+        "frames/wave-05.png",
+        "frames/wave-06.png",
+        "frames/wave-07.png",
+        "frames/wave-08.png"
+      ],
+      "count": 8,
+      "canvas": {
+        "width": 233,
+        "height": 467
+      },
+      "frameMs": 150,
+      "order": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        6,
+        5,
+        6,
+        7,
+        8,
+        1
+      ],
+      "durationOverrides": {
+        "1": 400
+      }
+    },
+    "idle": {
+      "files": [
+        "frames/wave-01.png"
+      ],
+      "count": 1,
+      "canvas": {
+        "width": 233,
+        "height": 467
+      },
+      "frameMs": 150,
+      "order": [
+        1
+      ],
+      "durationOverrides": {},
+      "blink": null
+    }
+  },
+  "extraction": {
+    "wave": {
+      "source": "xiaoye-hop-8-clean.png",
+      "sourceBounds": [
+        [
+          37,
+          132,
+          243,
+          591
+        ],
+        [
+          308,
+          180,
+          514,
+          592
+        ],
+        [
+          579,
+          111,
+          787,
+          558
+        ],
+        [
+          843,
+          74,
+          1056,
+          496
+        ],
+        [
+          1108,
+          112,
+          1333,
+          541
+        ],
+        [
+          1387,
+          181,
+          1597,
+          591
+        ],
+        [
+          1663,
+          140,
+          1865,
+          589
+        ],
+        [
+          1930,
+          132,
+          2137,
+          591
+        ]
+      ],
+      "footY": [
+        462,
+        462,
+        462,
+        462,
+        462,
+        462,
+        462,
+        462
+      ],
+      "coreAlphaThreshold": 32,
+      "discardAlphaAtMost": 8,
+      "alignment": "bottom-center"
+    }
+  },
+  "eyes": {
+    "centers": [],
+    "detected": false,
+    "reason": "Expected exactly two aligned dark round eyes; found 3 candidates. Blink disabled.",
+    "blinkDisabledReason": "Expected exactly two aligned dark round eyes; found 3 candidates. Blink disabled."
+  }
+}

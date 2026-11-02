@@ -1,0 +1,673 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>練習賽和正式賽，現在是哪一場？</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=LXGW+WenKai+TC:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="library/tea-characters.css">
+<style>
+:root{--footer-height:68px;--type-body:17px;--type-small:17px;--type-micro:16px;--type-reading:20px;--paper:#FAF6EE;--ink:#403c33;--muted:#71695c;--line:#d9d1c1;--soft:#eee7dc;--signal:#e4ebd9;--green:#506747;--tea:#94795c;--serif:"LXGW WenKai TC","LXGW WenKai","霞鶩文楷","Iowan Old Style","Songti TC",serif;--sans:"LXGW WenKai TC","LXGW WenKai","霞鶩文楷","PingFang TC",sans-serif;--ease:cubic-bezier(.22,.72,.22,1)}
+*{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden}body{background:var(--paper);color:var(--ink);font:var(--type-body)/1.45 var(--sans)}button,summary{font:inherit;color:inherit;cursor:pointer}button{border:1px solid var(--line);background:transparent;border-radius:8px;padding:8px 12px;min-height:44px;touch-action:manipulation}button:hover,summary:hover{background:var(--soft)}button:focus-visible,summary:focus-visible{outline:3px solid var(--green);outline-offset:3px}[hidden]{display:none!important}p{margin:0}h3{font-size:20px;margin:0 0 10px}strong{font-weight:650}code{font: .94em ui-monospace,SFMono-Regular,Menlo,monospace}pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;tab-size:4;font:13px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace}pre code{font:inherit}
+.deck{height:100%}.slide{position:absolute;inset:0 0 var(--footer-height);padding:28px 4vw 20px;overflow:hidden;visibility:hidden;opacity:0;transform:translateY(12px);transition:opacity .2s var(--ease),transform .2s var(--ease)}.slide.is-active{visibility:visible;opacity:1;transform:none}.shell{width:min(1240px,100%);height:100%;margin:auto;display:flex;flex-direction:column;gap:18px;min-width:0}.section-head{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-shrink:0}.section-head h2{font:500 clamp(30px,3.5vw,44px)/1.2 var(--serif);letter-spacing:-.035em;margin:0;outline:none}.home-tag{font-size:16px;color:var(--muted)}.content{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:16px}.art{display:block;width:100%;height:auto;object-fit:contain;pointer-events:none}.bridge{font-size:17px;line-height:1.4;color:var(--green);font-weight:650}.source-note{font-size:13px;color:var(--muted);line-height:1.5}
+.footer{position:fixed;inset:auto 0 0;height:var(--footer-height);background:var(--paper);z-index:10;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:8px 4vw 11px;border-top:1px solid var(--line)}.footer-notes{flex:1;min-width:0}.controls{display:flex;align-items:center;gap:10px;margin-left:auto;flex-shrink:0}.controls button{width:48px;height:48px;padding:8px;display:grid;place-items:center}.controls svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.5}.controls .mode-toggle{width:auto;padding:0 14px;font:inherit;font-size:16px;white-space:nowrap}.mode-toggle[aria-pressed="true"]{background:var(--signal);border-color:var(--green)}.page-number{min-width:64px;text-align:center;white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--muted)}.progress{z-index:11;position:fixed;bottom:0;left:0;width:100%;height:4px;background:var(--line)}.progress:after{content:"";display:block;width:var(--progress);height:100%;background:var(--green);transition:width .2s}.edge{position:fixed;top:0;bottom:var(--footer-height);width:2.5vw;padding:0;min-height:0;border:0;border-radius:0;z-index:4;background:transparent}.edge:hover{background:rgba(148,121,92,.08)}#prev{left:0}#next{right:0}
+.cover .section-head{display:none}.hero{height:100%;display:grid;grid-template-columns:minmax(0,1fr) 280px;align-items:center;gap:32px}.hero h1{font:500 clamp(42px,4.6vw,62px)/1.35 var(--serif);letter-spacing:-.04em;margin:0 0 30px;max-width:880px}.hero .subtitle{font-size:20px;line-height:1.8;color:var(--muted);max-width:760px}.tea-slot{display:flex;align-items:flex-end;justify-content:center;padding:20px;min-width:0}.hero .tea-slot{align-self:end;margin-bottom:55px}.cover-rule{width:100px;height:3px;background:var(--green);margin-bottom:32px}
+.quiz{min-width:0}.question{font-size:17px;line-height:1.5;margin-bottom:12px}.question p+p{margin-top:6px}.options{display:grid;grid-template-columns:1fr 1fr;gap:8px}.option{text-align:left;line-height:1.45;font-size:17px;padding:10px 12px;background:#fffdf8;transition:background .2s,border-color .2s;overflow-wrap:anywhere}.quiz[data-answered] .option{background:var(--soft);border-color:var(--line);color:var(--muted)}.quiz[data-answered] .option.correct{background:var(--signal);border-color:var(--green);color:var(--ink)}.feedback{margin-top:12px;padding:12px 16px;border-left:3px solid var(--green);background:#edf1e5;font-size:17px;line-height:1.45;animation:fade-in .3s var(--ease)}.result{font-weight:650;color:var(--green);margin-bottom:4px}.code-table{width:100%;border-collapse:collapse;table-layout:fixed;margin:12px 0 16px;font-size:17px}.code-table th,.code-table td{padding:8px 12px;text-align:left;vertical-align:middle;border-bottom:1px solid var(--line)}.code-table th{font-size:13px;color:var(--muted);font-weight:400}.code-table th:first-child,.code-table td:first-child{width:43%;background:#f0ebe1}.code-table td:last-child{line-height:1.4}.code-table td{background:#fffdf875}#s2 .options{grid-template-columns:repeat(4,1fr)}
+.bulb-head{display:flex;justify-content:space-between;align-items:center}.total{font-size:26px;color:var(--green)}.total small{font-size:17px;color:var(--muted)}.mode-label{font-size:20px;color:var(--tea)}.bulb-row{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:14px}.bulb{text-align:center;min-width:0;color:var(--green);border-radius:14px}.bulb svg{display:block;width:100%;height:115px;overflow:visible}.bulb .glass{fill:#e3e9cd;stroke:#746750;stroke-width:1.7;transition:fill .3s}.bulb .glow{fill:#e3e9cd;opacity:.32;transition:opacity .3s,fill .3s}.bulb[data-value="0"] .glass{fill:#d8d6d0}.bulb[data-value="0"] .glow{opacity:0}.bulb[data-value="2"] .glass{fill:#a9be77}.bulb[data-value="2"] .glow{fill:#c2d78d;opacity:.6}.bulb strong{display:block;font-size:25px}.bulb.diff{background:#eadccc;box-shadow:inset 0 0 0 1px #b3997b}.bulb.same{background:#edf1e5}.bulb-buttons{display:flex;gap:12px;flex-wrap:wrap}.bulb-buttons button[aria-pressed="true"]{background:var(--signal);border-color:var(--green)}.bulb-copy{display:grid;gap:5px}.bulb-copy p:last-child{color:var(--muted)}.prediction{padding:12px 16px;border:1px solid var(--line);border-radius:14px;animation:fade-in .3s}.prediction-line{display:grid;grid-template-columns:90px 1fr;gap:10px;align-items:center}.prediction-line+.prediction-line{margin-top:8px}.mini .bulb-row{gap:8px}.mini .bulb svg{height:42px}.mini .bulb strong{font-size:17px}.prediction-note{font-size:13px;color:var(--muted);margin-top:6px}
+.compare-layout{display:grid;grid-template-columns:minmax(0,1fr) 25%;gap:24px;align-items:center}.compare{width:100%;border-collapse:collapse;table-layout:fixed;font-size:17px;line-height:1.4}.compare th,.compare td{padding:12px 14px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.compare th:first-child{width:22%}.compare td:nth-child(2),.compare th:nth-child(2){background:#eee2d3}.compare td:nth-child(3),.compare th:nth-child(3){background:var(--signal)}.compare thead code{display:block;margin-top:6px}.compare tbody th{font-size:16px;font-weight:400}.no-grad{padding:10px 14px;background:var(--soft);line-height:1.45}.mantra{font-size:34px;color:var(--green);line-height:1.3}.guidance{display:grid;gap:4px}.compare-layout .art{max-height:290px}#s4 .content{gap:12px}
+.reason-layout{display:grid;grid-template-columns:36% minmax(0,1fr);gap:24px;min-height:0;flex:1;align-items:start}.reason-left{display:flex;flex-direction:column;align-items:center;min-height:0}.reason-left .code-table{margin-top:0}.reason-left .code-table th:first-child,.reason-left .code-table td:first-child{width:49%}.reason-left .code-table td{padding:8px;font-size:16px}.reason-left .art{width:76%;max-height:245px;margin-top:12px}.reasons{display:grid;gap:10px}.reason{border:1px solid var(--line);border-radius:12px;background:#fffdf86e}.reason summary{min-height:48px;padding:12px 16px;font-size:20px;color:var(--green)}.reason-body{padding:0 16px 14px;font-size:17px;line-height:1.5;animation:fade-in .3s}.reason-body .mini{margin:4px 0 8px}.bn-note{font-size:16px;line-height:1.45;border-top:1px solid var(--line);padding-top:10px}.takeaway-layout{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 200px;gap:24px;align-items:center}.takeaways{display:grid;gap:42px}.takeaways p{font:500 clamp(25px,2.8vw,37px)/1.5 var(--serif);opacity:0;transform:translateY(10px)}.takeaways p.shown{opacity:1;transform:none;transition:opacity .35s,transform .35s}.takeaway-layout .tea-slot{align-self:end;margin-bottom:40px;padding:12px}
+#s7{overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain}#s7 .shell{height:auto;min-height:100%}.homework{display:grid;gap:24px;padding-bottom:24px}.homework .quiz{border:1px solid var(--line);border-radius:16px;padding:22px;background:#fffdf85e}.homework h3{color:var(--tea);font-size:24px;margin-bottom:16px}.homework .options{grid-template-columns:1fr}.homework .code-table td:first-child,.homework .code-table th:first-child{width:57%}.homework .code-table td{font-size:17px}.homework details>summary{color:var(--green);padding:8px 0;min-height:44px}.homework .statements{display:grid;gap:8px;margin:12px 0 18px}.homework .context{padding:10px 14px;background:var(--soft);margin-bottom:12px}.homework .code-table pre{font-size:13px}
+#s3 .content{gap:12px}#s3 #bulbs .bulb svg{height:90px}#s3 #bulbs .bulb strong{font-size:22px}#s3 .prediction{padding:8px 16px}#s3 .prediction .bulb svg{height:30px}
+button:disabled{cursor:default;opacity:.55}button:disabled:hover{background:transparent}
+@keyframes fade-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media(max-width:900px){:root{--footer-height:116px}.footer{flex-wrap:wrap;gap:4px;padding:8px 4vw 11px}.footer-notes{flex-basis:100%}.footer .bridge{font-size:15px}.controls{gap:8px}.section-head h2{font-size:32px}.hero{grid-template-columns:minmax(0,1fr) 180px}.hero h1{font-size:38px}.compare-layout{gap:12px}.code-table td{font-size:16px}.takeaway-layout{grid-template-columns:minmax(0,1fr) 160px}.takeaways p{font-size:26px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.takeaways p{opacity:1;transform:none}}
+</style>
+</head><body>
+<main class="deck"><section class="slide cover" id="s1" aria-labelledby="cover-title" aria-hidden="true" inert><div class="shell"><div class="hero"><div><div class="cover-rule"></div><h1 id="cover-title" tabindex="-1">練習賽和正式賽，現在是哪一場？</h1><p class="subtitle">train／eval 模式：Dropout 與 Batch Normalization｜iPAS AI 應用規劃師中級 科目三</p></div><div class="tea-slot"><tea-chara name="xiaoye-kit" action="idle" size="260" data-wave-on-enter aria-label="小葉球衣熱身小跳"></tea-chara></div></div></div></section><section class="slide " id="s2" aria-labelledby="title2" aria-hidden="true" inert><div class="shell"><header class="section-head"><h2 id="title2" tabindex="-1">第 45 題</h2></header>
+<div class="content"><article class="quiz" id="q45" data-answer="A">
+<p class="question">執行下列程式，輸出會是什麼？</p><table class="code-table" data-code-block="0"><thead><tr><th>程式</th><th>白話</th></tr></thead><tbody>
+<tr><td><pre><code>import torch, torch.nn as nn</code></pre></td><td>把 PyTorch 工具箱拿進來</td></tr>
+<tr><td><pre><code>torch.manual_seed(0)</code></pre></td><td>把骰子的起點固定，整段程式重跑一次會得到同一串隨機結果</td></tr>
+<tr><td><pre><code>d = nn.Dropout(0.5)</code></pre></td><td>做一個 Dropout 開關，練習時每顆燈各有一半機率被關掉</td></tr>
+<tr><td><pre><code>x = torch.ones(1000)</code></pre></td><td>準備 1000 顆燈，每顆亮度都是 1</td></tr>
+<tr><td><pre><code>d.eval()</code></pre></td><td>告訴 Dropout：現在是比賽，不要關燈</td></tr>
+<tr><td><pre><code>print(bool((d(x) == x).all()))</code></pre></td><td>把燈送進 Dropout，檢查「每一顆」出來是不是跟進去時一模一樣，印出 True／False</td></tr>
+</tbody></table>
+<div class="options">
+<button type="button" class="option" aria-pressed="false">(A) True</button>
+<button type="button" class="option" aria-pressed="false">(B) False</button>
+<button type="button" class="option" aria-pressed="false">(C) 0.5</button>
+<button type="button" class="option" aria-pressed="false">(D) None</button>
+</div>
+<div class="feedback" hidden><p class="result">正解：A</p><p>比賽模式下 Dropout 什麼都不做，1000 顆燈進去是 1、出來還是 1 → 每一顆都一樣 → True。</p></div>
+</article></div>
+</div></section>
+<section class="slide " id="s3" aria-labelledby="title3" aria-hidden="true" inert><div class="shell"><header class="section-head"><h2 id="title3" tabindex="-1">一排燈泡</h2></header>
+<div class="content"><div class="bulb-head"><p id="bulb-mode" class="mode-label">比賽模式 eval()</p><p id="total" class="total" aria-live="polite">總亮度 8</p></div><div id="bulbs" class="bulb-row" aria-label="八顆燈泡"></div><div class="bulb-buttons"><button id="train" type="button" aria-pressed="false">練習模式 train()　再抽一次</button><button id="eval" type="button" aria-pressed="true">比賽模式 eval()</button><button id="predict" type="button" aria-expanded="false" aria-controls="prediction">同一張圖預測兩次</button></div><div class="bulb-copy"><p>練習：隨機關掉一些燈，還亮的燈調亮，整排的平均亮度不變</p><p>比賽：全部的燈原樣亮著</p><p>哪幾顆被關掉是隨機的，幾乎每次都不一樣</p></div><div id="prediction" class="prediction mini" hidden><div class="prediction-line"><span>第一次</span><div id="prediction-first" class="bulb-row"></div></div><div class="prediction-line"><span>第二次</span><div id="prediction-second" class="bulb-row"></div></div><p id="prediction-note" class="prediction-note" aria-live="polite"></p></div></div>
+</div></section>
+<section class="slide " id="s4" aria-labelledby="title4" aria-hidden="true" inert><div class="shell"><header class="section-head"><h2 id="title4" tabindex="-1">一行切換三件事</h2></header>
+<div class="content"><div class="compare-layout"><table class="compare"><thead><tr><th></th><th>練習 <code>model.train()</code></th><th>比賽 <code>model.eval()</code></th></tr></thead><tbody><tr><th>Dropout</th><td>隨機叫一部分隊員坐板凳（輸出歸 0），留下的調亮</td><td>全員上場，原樣輸出</td></tr><tr><th>批次正規化<br>（Batch Normalization）</th><td>用這一批資料的平均與變異數來校正，並累積成長期的平均與變異數</td><td>用練習時累積的長期平均與變異數</td></tr><tr><th>同一張圖預測兩次</th><td>結果可能不一樣</td><td>每次都一樣（其他條件固定時）</td></tr></tbody></table><img class="art" src="assets/p04.png" alt="小人換上正式球衣"></div><p class="no-grad"><code>torch.no_grad()</code> → 只是不錄影（不記梯度，省記憶體）；衣服沒換，Dropout 與 BatchNorm 的模式不會因此切換</p><p class="mantra">eval 換衣服，no_grad 關錄影</p><div class="guidance source-note"><p>學習指引 5-45「Dropout 訓練階段：隨機將部分神經元輸出設為 0；測試階段：不再丟棄神經元，而是把權重按保留率縮放，保持輸出期望值一致」</p><p>3-27「批次正規化：在每一層中標準化中間輸出」。</p><p>指引的寫法是比賽時把權重縮小；PyTorch 的寫法是練習時先把還亮的燈調亮。兩種做法都是為了讓「練習的平均輸出」和「比賽的平均輸出」對得上，只是一個在比賽時縮小、一個在練習時放大；考試按指引的寫法答。</p></div></div>
+</div></section>
+<section class="slide " id="s5" aria-labelledby="title5" aria-hidden="true" inert><div class="shell"><header class="section-head"><h2 id="title5" tabindex="-1">回到第 45 題</h2></header>
+<div class="content"><div class="reason-layout"><div class="reason-left"><table class="code-table" data-code-block="0"><thead><tr><th>程式</th><th>白話</th></tr></thead><tbody>
+<tr><td><pre><code>d.eval()</code></pre></td><td>告訴 Dropout：現在是比賽，不要關燈</td></tr>
+<tr><td><pre><code>print(bool((d(x) == x).all()))</code></pre></td><td>把燈送進 Dropout，檢查「每一顆」出來是不是跟進去時一模一樣，印出 True／False</td></tr>
+</tbody></table><img class="art" src="assets/p05.png" alt="小人舉著亮燈泡"></div><div class="reasons"><details class="reason"><summary>為什麼是 True</summary><div class="reason-body">d.eval() 之後是比賽模式，1000 顆燈原樣出來，每顆都跟進去時一樣。</div></details><details class="reason" id="without-eval"><summary>如果把 d.eval() 這行拿掉</summary><div class="reason-body"><div class="mini"><div id="reason-bulbs" class="bulb-row"></div></div><p>變成練習模式，每顆燈出來不是 0 就是 2，<strong>沒有任何一顆會剛好是 1</strong>，所以「每一顆都一樣」一定不成立 → 一定是 False（不是「有機會」False）。</p></div></details><details class="reason"><summary>選項 C 的 0.5 是什麼</summary><div class="reason-body">那是 Dropout 的關燈機率，不是程式印出來的東西；看到題目問「輸出是什麼」，先看最後一行 print 印的是 True／False 還是數字。</div></details></div></div><p class="bn-note">BatchNorm 也一樣換衣服——練習用這一批的平均與變異數，比賽用累積的長期平均與變異數；忘了 eval() 時，單張圖只能用它自己這一張算平均與變異數，跟練習時整批算出來的可能差很多，結果可能偏掉。</p></div>
+</div></section>
+<section class="slide " id="s6" aria-labelledby="title6" aria-hidden="true" inert><div class="shell"><header class="section-head"><h2 id="title6" tabindex="-1">3 句話帶走</h2></header>
+<div class="takeaway-layout"><div class="takeaways"><p>練習 train() 隨機關燈，比賽 eval() 全亮</p><p>eval 換衣服，no_grad 關錄影</p><p>同一張圖結果會變，先看有沒有忘了 eval()</p></div><div class="tea-slot"><tea-chara name="naicha-kit" action="idle" size="200" data-wave-on-enter aria-label="奶茶球衣舉手歡呼"></tea-chara></div></div>
+</div></section>
+<section class="slide " id="s7" aria-labelledby="title7" aria-hidden="true" inert><div class="shell"><header class="section-head"><h2 id="title7" tabindex="-1">📖 回家作業</h2><span class="home-tag">📖 回家作業</span></header>
+<div class="homework"><article class="quiz" id="q42" data-answer="D">
+<h3>回家作業 ①</h3><p class="context">下圖為工程師以 PyTorch 撰寫的影像分類訓練與驗證流程（模型內含 Dropout 與 BatchNorm 層）。請回答第 42～43 題。</p><details class="code-notes" open><summary>程式與逐行白話</summary><table class="code-table" data-code-block="1"><thead><tr><th>程式</th><th>白話</th></tr></thead><tbody>
+<tr><td><pre><code>model.train()                                     # 行1</code></pre></td><td>告訴模型：現在是練習</td></tr>
+<tr><td><pre><code>for epoch in range(EPOCHS):</code></pre></td><td>整份教材從頭到尾讀一遍叫一輪，重複很多輪</td></tr>
+<tr><td><pre><code>    for xb, yb in train_loader:</code></pre></td><td>一次拿一小批題目（xb）和答案（yb）</td></tr>
+<tr><td><pre><code>        optimizer.zero_grad()                     # 行2</code></pre></td><td>把上一批留下的修正筆記擦掉</td></tr>
+<tr><td><pre><code>        loss = criterion(model(xb), yb)</code></pre></td><td>模型作答，跟標準答案比，算出錯多少</td></tr>
+<tr><td><pre><code>        loss.backward()</code></pre></td><td>從錯誤往回推，算出每個參數該往哪邊修（梯度）</td></tr>
+<tr><td><pre><code>        optimizer.step()                          # 行3</code></pre></td><td>照著修正筆記真的去改參數</td></tr>
+<tr><td><pre><code>    scheduler.step()                              # 行4</code></pre></td><td>這一輪結束，調整一下學習的步伐大小</td></tr>
+<tr><td><pre><code>    correct = 0</code></pre></td><td>答對題數從 0 開始數</td></tr>
+<tr><td><pre><code>    with torch.no_grad():                         # 行5</code></pre></td><td>接下來只是看成績，不錄影（不記梯度）</td></tr>
+<tr><td><pre><code>        for xb, yb in val_loader:</code></pre></td><td>一次拿一小批驗證題</td></tr>
+<tr><td><pre><code>            pred = model(xb).argmax(dim=1)        # 行6</code></pre></td><td>模型作答，挑分數最高的那個類別當答案</td></tr>
+<tr><td><pre><code>            correct += (pred == yb).sum().item()</code></pre></td><td>數一數答對幾題</td></tr>
+<tr><td><pre><code>    print(epoch, correct / len(val_loader.dataset))</code></pre></td><td>印出這一輪的驗證正確率</td></tr>
+</tbody></table></details><div class="question"><p>42. 參考上方程式，下列哪一項描述組合正確？</p><div class="statements"><p>描述 A：行 2 若移除，梯度會在每個 batch 之間累加，等同放大學習率並使更新方向錯誤</p><p>描述 B：行 4 的 scheduler.step() 放在每個 epoch 結束後呼叫，對 StepLR／CosineAnnealingLR 等以 epoch 為單位的排程器而言是正確位置</p><p>描述 C：行 5 的 torch.no_grad() 會自動將 Dropout 與 BatchNorm 切換為推論模式</p><p>描述 D：行 6 的 argmax 之前必須先套用 softmax，否則預測類別會錯誤</p><p>描述 E：驗證迴圈前未呼叫 model.eval()，Dropout 仍會隨機關閉神經元、BatchNorm 仍以當前批次統計量正規化並更新 running statistics，導致驗證準確率被低估且不穩定</p><p>描述 F：行 5 的作用是停止建立計算圖以節省記憶體與時間，但不改變任何層的行為模式</p></div></div>
+<div class="options">
+<button type="button" class="option" aria-pressed="false">(A) 描述 A、描述 C、描述 D</button>
+<button type="button" class="option" aria-pressed="false">(B) 描述 B、描述 C、描述 E</button>
+<button type="button" class="option" aria-pressed="false">(C) 描述 A、描述 D、描述 F</button>
+<button type="button" class="option" aria-pressed="false">(D) 描述 A、描述 B、描述 E、描述 F</button>
+</div>
+<div class="feedback" hidden><p class="result">正解：D</p><p>先刪確定錯的——描述 C（no_grad 只是不錄影，不會幫你換衣服）、描述 D（挑最高分不需要先換算成機率）；四個選項只有 (D) 兩個都沒有。再看描述 E 說的是什麼：驗證前沒有 model.eval()，驗證時還在練習模式——Dropout 還在關燈、BatchNorm 還在用「這一批」的平均與變異數——驗證成績通常偏低又不穩。</p></div>
+</article><article class="quiz" id="q43" data-answer="A">
+<h3>回家作業 ②</h3><p class="question">43. 承上題，若要修正該程式在驗證階段的問題，下列作法何者最正確？</p>
+<div class="options">
+<button type="button" class="option" aria-pressed="false">(A) 在驗證迴圈之前呼叫 model.eval()，驗證結束、下一個 epoch 開始訓練前再呼叫 model.train()；</button>
+<button type="button" class="option" aria-pressed="false">(B) 只需將行 5 的 torch.no_grad() 改為 torch.enable_grad()；</button>
+<button type="button" class="option" aria-pressed="false">(C) 在行 6 之前加入 torch.softmax(model(xb), dim=1)；</button>
+<button type="button" class="option" aria-pressed="false">(D) 移除模型中所有 Dropout 與 BatchNorm 層</button>
+</div>
+<div class="feedback" hidden><p class="result">正解：A</p><p>驗證前換成比賽模式，驗證完要記得換回練習模式，下一輪才會繼續關燈練習。</p></div>
+</article><article class="quiz" id="q-bn" data-answer="B">
+<h3>回家作業 ③</h3><p class="question">附圖程式碼實現的是哪一種技術？</p><details class="code-notes" open><summary>程式與逐行白話</summary><table class="code-table" data-code-block="2"><thead><tr><th>程式</th><th>白話</th></tr></thead><tbody>
+<tr><td><pre><code>def forward(self, x, training=True):</code></pre></td><td>這一層收到一批資料 x，還要知道現在是不是練習</td></tr>
+<tr><td><pre><code>    if training:</code></pre></td><td>如果是練習</td></tr>
+<tr><td><pre><code>        mean, var = x.mean(axis=0), x.var(axis=0)</code></pre></td><td>算「這一批」的平均和變異數</td></tr>
+<tr><td><pre><code>        self.running_mean = 0.9 * self.running_mean + 0.1 * mean</code></pre></td><td>把這一批的平均摻一點進這一層保存的長期平均（累積）</td></tr>
+<tr><td><pre><code>        self.running_var  = 0.9 * self.running_var  + 0.1 * var</code></pre></td><td>變異數也一樣累積</td></tr>
+<tr><td><pre><code>    else:</code></pre></td><td>如果是比賽</td></tr>
+<tr><td><pre><code>        mean, var = self.running_mean, self.running_var</code></pre></td><td>直接用練習時累積的長期平均與變異數</td></tr>
+<tr><td><pre><code>    return (x - mean) / np.sqrt(var + 1e-5)</code></pre></td><td>把資料減平均、除以標準差，標準化後送出</td></tr>
+</tbody></table></details>
+<div class="options">
+<button type="button" class="option" aria-pressed="false">(A) Dropout</button>
+<button type="button" class="option" aria-pressed="false">(B) Batch Normalization</button>
+<button type="button" class="option" aria-pressed="false">(C) L2 正則化</button>
+<button type="button" class="option" aria-pressed="false">(D) Early Stopping</button>
+</div>
+<div class="feedback" hidden><p class="result">正解：B</p><p>練習用這一批、比賽用長期累積——這就是 Batch Normalization 的換衣服；Dropout 的分支會出現隨機關燈，不會有平均和變異數。</p></div>
+</article><article class="quiz" id="q-return" data-answer="C">
+<h3>回家作業 ④</h3><p class="question">某工程師在每一輪訓練後都先呼叫 model.eval() 再跑驗證，但驗證結束後沒有呼叫 model.train() 就直接進入下一輪訓練。模型含 Dropout 與 Batch Normalization 層。下列敘述何者最正確？</p>
+<div class="options">
+<button type="button" class="option" aria-pressed="false">(A) 沒有影響，optimizer.step() 會自動把模型切回訓練模式</button>
+<button type="button" class="option" aria-pressed="false">(B) 訓練會報錯，因為 eval 模式下無法計算梯度</button>
+<button type="button" class="option" aria-pressed="false">(C) 從第二輪起 Dropout 不再隨機關閉神經元、Batch Normalization 不再更新累積的平均與變異數，正則化效果消失、過擬合風險上升；參數仍會被更新</button>
+<button type="button" class="option" aria-pressed="false">(D) 從第二輪起參數不再更新，等同提前停止訓練</button>
+</div>
+<div class="feedback" hidden><p class="result">正解：C</p><p>eval() 只換衣服不關錄影，梯度照算、參數照改，但 Dropout 不關燈了、BatchNorm 也不累積了，這兩種防過擬合的效果在後面幾輪都沒了。(A) 優化器不管模式；(B) eval 不擋梯度；(D) 參數照樣更新。</p></div>
+</article></div>
+</div></section>
+</main>
+<button class="edge" id="prev" type="button" tabindex="-1" aria-label="往前"></button><button class="edge" id="next" type="button" tabindex="-1" aria-label="往後"></button>
+<footer class="footer"><div class="footer-notes"><p class="bridge" data-slide="s1" hidden>練習賽和正式賽，現在是哪一場？</p><p class="bridge" data-slide="s2" hidden>比賽的時候，Dropout 不關燈。</p><p class="bridge" data-slide="s3" hidden>練習會隨機關燈，比賽全亮。</p><p class="bridge" data-slide="s4" hidden>eval 換衣服，no_grad 關錄影。</p><p class="bridge" data-slide="s5" hidden>練習時每顆燈不是 0 就是 2，不會剛好是 1。</p><p class="bridge" data-slide="s6" hidden>同一張圖結果會變，先看有沒有忘了 eval()</p><p class="bridge" data-slide="s7" hidden>eval 換衣服，no_grad 關錄影。</p></div><div class="controls"><button id="mode-toggle" class="mode-toggle" type="button" aria-pressed="false">切換為解析模式</button><span id="page-number" class="page-number" aria-label="頁碼" aria-live="polite">1 / 7</span><button id="prev-button" type="button" aria-label="往前"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7"/></svg></button><button id="next-button" type="button" aria-label="往後"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7"/></svg></button></div></footer><div id="progress" class="progress" aria-hidden="true"></div>
+<script id="deck-script">
+const $=selector=>document.querySelector(selector);
+const slides=[...document.querySelectorAll('.slide')];
+let currentSlide=0,timers=[],bulbMode='eval';
+const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
+function pageQuizzes(){return [...slides[currentSlide].querySelectorAll('.quiz')];}
+function isExplained(){const q=pageQuizzes();return q.length>0&&q.every(x=>x.hasAttribute('data-answered'));}
+function updateFooter(){
+ $('#page-number').textContent=`${currentSlide+1} / ${slides.length}`;
+ $('#mode-toggle').textContent=isExplained()?'關閉解析模式':'切換為解析模式';
+ $('#mode-toggle').setAttribute('aria-pressed',String(isExplained()));
+ $('#mode-toggle').disabled=pageQuizzes().length===0;
+ document.querySelectorAll('.footer .bridge').forEach(b=>b.hidden=b.dataset.slide!==slides[currentSlide].id);
+}
+function reveal(quiz,on,selected=null){
+ if(on)quiz.dataset.answered='true';else delete quiz.dataset.answered;
+ quiz.querySelectorAll('.option').forEach((choice,i)=>{
+  choice.classList.toggle('correct',on&&'ABCD'[i]===quiz.dataset.answer);
+  choice.setAttribute('aria-pressed',String(on&&i===selected));
+ });
+ quiz.querySelector('.feedback').hidden=!on;
+}
+function setExplainMode(on){pageQuizzes().forEach(q=>reveal(q,on));updateFooter();}
+function playTakeaways(){
+ timers.forEach(clearTimeout);timers=[];
+ const lines=[...document.querySelectorAll('.takeaways p')];
+ lines.forEach(l=>l.classList.remove('shown'));
+ if(currentSlide!==5)return;
+ lines.forEach((l,i)=>{if(reducedMotion.matches)l.classList.add('shown');else timers.push(setTimeout(()=>l.classList.add('shown'),i*800));});
+}
+function showSlide(index,focus=false){
+ currentSlide=(index+slides.length)%slides.length;
+ if(document.activeElement.closest?.('.slide')&&!slides[currentSlide].contains(document.activeElement))document.activeElement.blur();
+ slides.forEach((slide,i)=>{const active=i===currentSlide;slide.classList.toggle('is-active',active);slide.inert=!active;slide.setAttribute('aria-hidden',String(!active));});
+ $('#progress').style.setProperty('--progress',`${(currentSlide+1)/slides.length*100}%`);
+ updateFooter();playTakeaways();
+ if(focus)slides[currentSlide].querySelector('h1,h2').focus({preventScroll:true});
+ slides[currentSlide].querySelectorAll('tea-chara[data-wave-on-enter]').forEach(c=>{
+  if(c.dataset.state==='ready'&&!reducedMotion.matches)c.play('wave');
+ });
+}
+// One independent Bernoulli draw per bulb. Never force a fixed survivor count.
+function sampleBulbs(mode,rng=Math.random){return Array.from({length:8},()=>mode==='train'?(rng()<0.5?0:2):1);}
+function sumBulbs(values){return values.reduce((sum,value)=>sum+value,0);}
+function bulbMarkup(value){return `<div class="bulb" data-value="${value}"><svg viewBox="0 0 80 110" aria-hidden="true"><ellipse class="glow" cx="40" cy="43" rx="36" ry="40"/><path class="glass" d="M40 10C8 9 4 45 23 65c5 5 6 10 6 17h22c0-7 1-12 6-17C76 45 72 9 40 10Z"/><g fill="none" stroke="#746750" stroke-width="1.7" stroke-linecap="round"><path d="m30 83 20 0m-20 5h20m-18 5h16m-13 5h10M35 80l-4-30 9 7 9-7-4 30"/><path d="M22 34c2-9 6-14 13-16" stroke="#fffdf8" stroke-width="3"/></g></svg><strong>${value}</strong></div>`;}
+function renderBulbs(target,values,other=null){
+ if(target.children.length!==8)target.innerHTML=values.map(bulbMarkup).join('');
+ [...target.children].forEach((bulb,i)=>{
+  bulb.dataset.value=String(values[i]);bulb.querySelector('strong').textContent=String(values[i]);
+  bulb.setAttribute('aria-label',`燈 ${i+1}，亮度 ${values[i]}`);
+  bulb.classList.toggle('diff',other!==null&&values[i]!==other[i]);
+  bulb.classList.toggle('same',other!==null&&values[i]===other[i]);
+ });
+}
+function predictTwice(){
+ const first=sampleBulbs(bulbMode),second=sampleBulbs(bulbMode);
+ renderBulbs($('#prediction-first'),first,second);renderBulbs($('#prediction-second'),second,first);
+ $('#prediction').hidden=false;$('#predict').setAttribute('aria-expanded','true');
+ $('#prediction-note').textContent=bulbMode==='eval'?'比賽：兩次完全相同。':first.every((v,i)=>v===second[i])?'這次兩排剛好相同；各自抽樣也可能相同。':'奶茶棕的位置：兩次亮度不一樣。';
+}
+function setBulbMode(mode){
+ bulbMode=mode;
+ const values=sampleBulbs(mode);renderBulbs($('#bulbs'),values);
+ $('#total').textContent=`總亮度 ${sumBulbs(values)}${mode==='train'?'（平均 8）':''}`;
+ $('#bulb-mode').textContent=mode==='train'?'練習模式 train()':'比賽模式 eval()';
+ $('#train').setAttribute('aria-pressed',String(mode==='train'));$('#eval').setAttribute('aria-pressed',String(mode==='eval'));
+ if(!$('#prediction').hidden)predictTwice();
+}
+document.querySelectorAll('.quiz').forEach(quiz=>quiz.querySelectorAll('.option').forEach((choice,i)=>choice.addEventListener('click',()=>{reveal(quiz,true,i);updateFooter();})));
+$('#mode-toggle').addEventListener('click',()=>setExplainMode(!isExplained()));
+$('#train').addEventListener('click',()=>setBulbMode('train'));
+$('#eval').addEventListener('click',()=>setBulbMode('eval'));
+$('#predict').addEventListener('click',predictTwice);
+for(const id of ['prev','prev-button'])$('#'+id).addEventListener('click',()=>showSlide(currentSlide-1,true));
+for(const id of ['next','next-button'])$('#'+id).addEventListener('click',()=>showSlide(currentSlide+1,true));
+$('#without-eval').addEventListener('toggle',()=>{if($('#without-eval').open)renderBulbs($('#reason-bulbs'),sampleBulbs('train'));});
+addEventListener('keydown',event=>{
+ if(event.altKey||event.ctrlKey||event.metaKey||event.target.matches('input,select,textarea')||event.target.isContentEditable)return;
+ if(event.key==='ArrowRight'||event.key==='PageDown'){event.preventDefault();showSlide(currentSlide+1,true);}
+ if(event.key==='ArrowLeft'||event.key==='PageUp'){event.preventDefault();showSlide(currentSlide-1,true);}
+ if(event.key==='e'||event.key==='E'){event.preventDefault();setExplainMode(!isExplained());}
+ if(event.key==='Escape'){
+  event.preventDefault();setExplainMode(false);
+  const detail=document.activeElement.closest?.('details');if(detail)detail.querySelector('summary').focus();
+  slides[currentSlide].querySelectorAll('details').forEach(d=>d.open=false);
+  if(currentSlide===2){$('#prediction').hidden=true;$('#predict').setAttribute('aria-expanded','false');}
+ }
+ if(currentSlide===2&&['1','2','3'].includes(event.key)){
+  event.preventDefault();if(event.key==='1')setBulbMode('train');if(event.key==='2')setBulbMode('eval');if(event.key==='3')predictTwice();
+ }
+});
+// Series zoom behavior copied from the baseline.
+function fitDeck(){const w=innerWidth,hgt=innerHeight;let s=1;if(w>900&&!matchMedia('print').matches){s=Math.min(w/1280,hgt>850?hgt/870:hgt/800);s=Math.max(1,Math.min(s,2.2));}document.body.style.zoom=s===1?'':String(Math.round(s*1000)/1000);}
+addEventListener('resize',fitDeck);fitDeck();setBulbMode('eval');renderBulbs($('#reason-bulbs'),sampleBulbs('train'));showSlide(0);
+document.querySelectorAll('tea-chara[data-wave-on-enter]').forEach(c=>c.addEventListener('tea-ready',()=>{if(c.closest('.slide').classList.contains('is-active')&&!reducedMotion.matches)c.play('wave');},{once:true}));
+</script>
+<script id="tea-local-bundle">
+// Unmodified library behavior, with local URL / JSON loading adapter only.
+(()=>{
+const embeddedTeaData={"xiaoye/manifest.json":{"schemaVersion":1,"name":"xiaoye","label":"小葉","canvas":{"width":500,"height":800},"notes":"簡報插圖母本 final4；垂手肩膀依軀幹 10%/90% × 12%，頂端 15% alpha 向上線性淡至 0；舉手保留 16%/84% × 12%；手臂 z=1，body=2，head=4。軀幹排除領巾／圍巾。","parts":{"head-blank":{"file":"head-blank.png","x":40,"y":0,"width":420,"height":494.11764705882354,"z":4,"pivot":{"x":0.5,"y":0.65},"sourceBounds":[57,71,391,460]},"body":{"file":"body.png","x":153,"y":466.11764705882354,"width":231,"height":270.69072164948454,"z":2,"pivot":{"x":0.5,"y":0.1},"sourceBounds":[529,226,291,341]},"arm-l":{"file":"arm-l.png","x":170.1364379665837,"y":509.88743020848585,"width":84,"height":174.95172413793105,"z":1,"pivot":{"x":0.23448275862068965,"y":0.1291390728476821},"sourceBounds":[1021,248,145,302],"rotation":0},"arm-r":{"file":"arm-r.png","x":294.9987930600955,"y":504.30980194944465,"width":84,"height":162.3658536585366,"z":1,"pivot":{"x":0.7439024390243902,"y":0.17350157728706625},"sourceBounds":[152,658,164,317],"rotation":0},"arm-r-wave":{"file":"arm-r-wave.png","x":324.13479954180985,"y":424.3138669900951,"width":165,"height":158.27777777777777,"z":1,"pivot":{"x":0.1259259259259259,"y":0.6833976833976834},"sourceBounds":[544,644,270,259],"rotation":-15,"palm":{"x":0.7925925925925926,"y":0.26640926640926643},"shoulderRadius":16.5},"eye-open":{"file":"eye-open.png","x":147,"y":345.9053799455726,"width":208,"height":49.28909952606635,"z":5,"pivot":{"x":0.5,"y":0.5},"sourceBounds":[933,816,211,50]},"eye-closed":{"file":"eye-closed.png","x":147,"y":366.3073058404857,"width":208,"height":41.241379310344826,"z":5,"pivot":{"x":0.5,"y":0.5},"sourceBounds":[138,1096,232,46]},"mouth-smile":{"file":"mouth-smile.png","x":222,"y":401.54699602260837,"width":57,"height":25.253164556962023,"z":5,"pivot":{"x":0.5,"y":0.5},"sourceBounds":[988,1092,79,35]},"mouth-o":{"file":"mouth-o.png","x":225,"y":394.1281138790036,"width":52,"height":42.31372549019608,"z":5,"pivot":{"x":0.5,"y":0.5},"sourceBounds":[596,1072,102,83]},"arm-l-wave":{"file":"arm-l-wave.png","x":58.18478808705612,"y":424.3138669900951,"width":165,"height":158.27777777777777,"z":1,"pivot":{"x":0.8740740740740741,"y":0.6833976833976834},"sourceBounds":[544,644,270,259],"rotation":15,"palm":{"x":0.20740740740740737,"y":0.26640926640926643},"shoulderRadius":16.5,"mirroredFrom":"arm-r-wave"}},"walkFrames":["walk-1.png","walk-2.png","walk-3.png","walk-4.png"],"walkCanvas":{"width":378,"height":619},"walkBlinkFrames":["walk-blink-1.png","walk-blink-2.png","walk-blink-3.png","walk-blink-4.png"],"torsoBounds":{"x":168.8762886597938,"y":505.8083687083081,"width":209.56701030927834,"height":222.26804123711338},"torsoSourceBounds":[549,276,264,280],"defaultMouth":"mouth-o","frames":{"wave":"frames/frames.json","idle":"frames/frames.json","walk":"frames/frames.json"}},"xiaoye/frames/frames.json":{"schemaVersion":1,"frames":{"wave":{"files":["frames/wave-01.png","frames/wave-02.png","frames/wave-03.png","frames/wave-04.png","frames/wave-05.png","frames/wave-06.png","frames/wave-07.png","frames/wave-08.png"],"count":8,"canvas":{"width":209,"height":317},"frameMs":150,"order":[1,2,3,4,5,6,7,6,5,6,7,8,1],"durationOverrides":{"1":400}},"idle":{"files":["frames/wave-01.png"],"count":1,"canvas":{"width":209,"height":317},"frameMs":150,"order":[1],"durationOverrides":{},"blink":{"base":"frames/idle-blink-base.png","file":"eye-closed.png","x":52.328,"y":141.548,"width":105.867,"height":20.991}},"walk":{"files":["frames/walk-01.png","frames/walk-02.png","frames/walk-03.png","frames/walk-04.png","frames/walk-05.png","frames/walk-06.png","frames/walk-07.png","frames/walk-08.png","frames/walk-09.png","frames/walk-10.png","frames/walk-11.png","frames/walk-12.png","frames/walk-13.png","frames/walk-14.png","frames/walk-15.png","frames/walk-16.png"],"count":16,"canvas":{"width":185,"height":371},"frameMs":100,"order":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],"durationOverrides":{}}},"extraction":{"wave":{"source":"wave-8.png","sourceBounds":[[22,120,183,429],[208,162,365,430],[383,127,570,429],[570,125,758,429],[763,131,964,430],[970,136,1143,430],[1149,145,1345,430],[1357,125,1512,429]],"footY":[312,312,312,312,312,312,312,312],"coreAlphaThreshold":32,"discardAlphaAtMost":8,"alignment":"bottom-center"},"walk":{"source":"walk-16.png","sourceBounds":[[39,139,216,490],[230,149,405,490],[423,161,594,489],[611,165,781,490],[798,164,971,490],[985,163,1155,490],[1168,151,1337,490],[1348,146,1513,489],[44,535,219,890],[236,535,410,889],[428,550,598,890],[614,530,789,890],[803,526,976,889],[992,536,1161,890],[1174,558,1340,897],[1351,559,1516,897]],"footY":[366,366,366,366,366,366,366,366,366,366,366,366,366,366,366,366],"coreAlphaThreshold":32,"discardAlphaAtMost":8,"alignment":"bottom-center"}},"eyes":{"centers":[[69.44,151.74],[140.17,151.89]],"bounds":[[63,146,77,159],[134,146,147,159]],"detected":true}},"naicha/manifest.json":{"schemaVersion":1,"name":"naicha","label":"奶茶","canvas":{"width":620,"height":800},"notes":"簡報插圖母本 final4；垂手肩膀依軀幹 10%/90% × 12%，頂端 15% alpha 向上線性淡至 0；舉手保留 16%/84% × 12%；手臂 z=1，body=2，head=4。軀幹排除領巾／圍巾。","parts":{"head-blank":{"file":"head-blank.png","x":20,"y":0,"width":450,"height":374.5738636363636,"z":4,"pivot":{"x":0.5,"y":0.65},"sourceBounds":[40,118,352,293]},"body":{"file":"body.png","x":71.04287439613526,"y":299.12287732396425,"width":501.3164251207729,"height":488.46215780998386,"z":2,"pivot":{"x":0.5,"y":0.1},"sourceBounds":[448,128,312,304]},"arm-l":{"file":"arm-l.png","x":100.37540906965872,"y":465.52414154400475,"width":90,"height":167.66129032258064,"z":1,"pivot":{"x":0.20967741935483872,"y":0.1471861471861472},"sourceBounds":[823,176,124,231],"rotation":0},"arm-r":{"file":"arm-r.png","x":282.4923472843018,"y":466.6501590296846,"width":90,"height":183.3644859813084,"z":1,"pivot":{"x":0.7570093457943925,"y":0.12844036697247707},"sourceBounds":[143,504,107,218],"rotation":0},"arm-r-wave":{"file":"arm-r-wave.png","x":284.8175465838509,"y":279.36822756551015,"width":220,"height":252.7380952380952,"z":1,"pivot":{"x":0.22023809523809523,"y":0.8341968911917098},"sourceBounds":[464,504,168,193],"rotation":-20,"palm":{"x":0.7976190476190477,"y":0.21243523316062177},"shoulderRadius":32.73809523809524},"eye-open":{"file":"eye-open.png","x":155,"y":213.00513625718543,"width":180,"height":45.283018867924525,"z":5,"pivot":{"x":0.5,"y":0.5},"sourceBounds":[773,605,159,40]},"eye-closed":{"file":"eye-closed.png","x":155,"y":232.86154726421117,"width":180,"height":40.5,"z":5,"pivot":{"x":0.5,"y":0.5},"sourceBounds":[154,855,160,36]},"mouth-smile":{"file":"mouth-smile.png","x":221,"y":261.7435996380668,"width":49,"height":25.199999999999996,"z":5,"pivot":{"x":0.5,"y":0.5},"sourceBounds":[509,855,70,36]},"mouth-o":{"file":"mouth-o.png","x":232,"y":255.4256506812859,"width":27,"height":32.142857142857146,"z":5,"pivot":{"x":0.5,"y":0.5},"sourceBounds":[825,844,42,50]},"arm-l-wave":{"file":"arm-l-wave.png","x":-34.9479813664596,"y":279.36822756551015,"width":220,"height":252.7380952380952,"z":1,"pivot":{"x":0.7797619047619048,"y":0.8341968911917098},"sourceBounds":[464,504,168,193],"rotation":20,"palm":{"x":0.20238095238095233,"y":0.21243523316062177},"shoulderRadius":32.73809523809524,"mirroredFrom":"arm-r-wave"}},"walkFrames":["walk-1.png","walk-2.png","walk-3.png","walk-4.png"],"walkCanvas":{"width":355,"height":384},"walkBlinkFrames":["walk-blink-1.png","walk-blink-2.png","walk-blink-3.png","walk-blink-4.png"],"torsoBounds":{"x":90.32427536231884,"y":453.37408505343285,"width":289.2210144927536,"height":306.8956320450886},"torsoSourceBounds":[460,224,180,191],"defaultMouth":"mouth-smile","frames":{"wave":"frames/frames.json","idle":"frames/frames.json","walk":"frames/frames.json"}},"naicha/frames/frames.json":{"schemaVersion":1,"frames":{"wave":{"files":["frames/wave-01.png","frames/wave-02.png","frames/wave-03.png","frames/wave-04.png","frames/wave-05.png","frames/wave-06.png","frames/wave-07.png","frames/wave-08.png"],"count":8,"canvas":{"width":207,"height":250},"frameMs":150,"order":[1,2,3,4,5,6,7,6,5,6,7,8,1],"durationOverrides":{"1":400}},"idle":{"files":["frames/wave-01.png"],"count":1,"canvas":{"width":207,"height":250},"frameMs":150,"order":[1],"durationOverrides":{},"blink":{"base":"frames/idle-blink-base.png","file":"eye-closed.png","x":49.084,"y":81.252,"width":72.719,"height":16.362}},"walk":{"files":["frames/walk-01.png","frames/walk-02.png","frames/walk-03.png","frames/walk-04.png","frames/walk-05.png","frames/walk-06.png","frames/walk-07.png","frames/walk-08.png","frames/walk-09.png","frames/walk-10.png","frames/walk-11.png","frames/walk-12.png","frames/walk-13.png","frames/walk-14.png","frames/walk-15.png","frames/walk-16.png"],"count":16,"canvas":{"width":206,"height":284},"frameMs":100,"order":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],"durationOverrides":{}}},"extraction":{"wave":{"source":"wave-8.png","sourceBounds":[[30,149,200,380],[217,174,385,380],[393,149,579,380],[575,139,757,381],[766,143,965,379],[967,148,1150,380],[1155,149,1341,380],[1354,145,1519,380]],"footY":[245,245,245,245,245,245,245,245],"coreAlphaThreshold":32,"discardAlphaAtMost":8,"alignment":"bottom-center"},"walk":{"source":"walk-16.png","sourceBounds":[[13,192,211,454],[207,198,400,454],[389,201,586,454],[575,207,773,455],[767,206,961,456],[959,204,1152,456],[1145,197,1335,456],[1338,193,1525,455],[12,590,208,849],[202,591,395,850],[388,583,577,851],[575,576,766,852],[765,562,957,832],[954,582,1143,851],[1142,593,1330,853],[1327,596,1517,852]],"footY":[279,279,279,279,279,279,279,279,279,279,279,279,279,279,279,279],"coreAlphaThreshold":32,"discardAlphaAtMost":8,"alignment":"bottom-center"}},"eyes":{"centers":[[61.81,89.0],[108.85,87.82]],"bounds":[[57,84,68,95],[104,83,115,94]],"detected":true}},"xiaoye-kit/manifest.json":{"schemaVersion":1,"name":"xiaoye-kit","label":"小葉球衣","canvas":{"width":233,"height":467},"notes":"熱身小跳，8 格整格動畫，沿用 wave 動作槽。無 walk、無專屬閉眼素材，停用 blink。播放器強制要求 10 個 parts 與根目錄 PNG，故共用首格備援圖；正常播放時整個 rig 隱藏。","parts":{"head-blank":{"file":"wave-01.png","x":0,"y":0,"width":1,"height":1,"z":-1,"pivot":{"x":0.5,"y":0.5}},"body":{"file":"wave-01.png","x":0,"y":0,"width":233,"height":467,"z":0,"pivot":{"x":0.5,"y":0.5}},"arm-l":{"file":"wave-01.png","x":0,"y":0,"width":1,"height":1,"z":-1,"pivot":{"x":0.5,"y":0.5}},"arm-r":{"file":"wave-01.png","x":0,"y":0,"width":1,"height":1,"z":-1,"pivot":{"x":0.5,"y":0.5}},"arm-l-wave":{"file":"wave-01.png","x":0,"y":0,"width":1,"height":1,"z":-1,"pivot":{"x":0.5,"y":0.5}},"arm-r-wave":{"file":"wave-01.png","x":0,"y":0,"width":1,"height":1,"z":-1,"pivot":{"x":0.5,"y":0.5}},"eye-open":{"file":"wave-01.png","x":0,"y":0,"width":1,"height":1,"z":-1,"pivot":{"x":0.5,"y":0.5}},"eye-closed":{"file":"wave-01.png","x":0,"y":0,"width":1,"height":1,"z":-1,"pivot":{"x":0.5,"y":0.5}},"mouth-smile":{"file":"wave-01.png","x":0,"y":0,"width":1,"height":1,"z":-1,"pivot":{"x":0.5,"y":0.5}},"mouth-o":{"file":"wave-01.png","x":0,"y":0,"width":1,"height":1,"z":-1,"pivot":{"x":0.5,"y":0.5}}},"frames":{"idle":"frames/frames.json","wave":"frames/frames.json"}},"xiaoye-kit/frames/frames.json":{"schemaVersion":1,"frames":{"wave":{"files":["frames/wave-01.png","frames/wave-02.png","frames/wave-03.png","frames/wave-04.png","frames/wave-05.png","frames/wave-06.png","frames/wave-07.png","frames/wave-08.png"],"count":8,"canvas":{"width":233,"height":467},"frameMs":150,"order":[1,2,3,4,5,6,7,6,5,6,7,8,1],"durationOverrides":{"1":400}},"idle":{"files":["frames/wave-01.png"],"count":1,"canvas":{"width":233,"height":467},"frameMs":150,"order":[1],"durationOverrides":{},"blink":null}},"extraction":{"wave":{"source":"xiaoye-hop-8-clean.png","sourceBounds":[[37,132,243,591],[308,180,514,592],[579,111,787,558],[843,74,1056,496],[1108,112,1333,541],[1387,181,1597,591],[1663,140,1865,589],[1930,132,2137,591]],"footY":[462,462,462,462,462,462,462,462],"coreAlphaThreshold":32,"discardAlphaAtMost":8,"alignment":"bottom-center"}},"eyes":{"centers":[],"detected":false,"reason":"Expected exactly two aligned dark round eyes; found 3 candidates. Blink disabled.","blinkDisabledReason":"Expected exactly two aligned dark round eyes; found 3 candidates. Blink disabled."}},"naicha-kit/manifest.json":{"schemaVersion":1,"name":"naicha-kit","label":"奶茶球衣","canvas":{"width":260,"height":413},"notes":"舉手歡呼，8 格整格動畫，沿用 wave 動作槽。無 walk、無專屬閉眼素材，停用 blink。播放器強制要求 10 個 parts 與根目錄 PNG，故共用首格備援圖；正常播放時整個 rig 隱藏。","parts":{"head-blank":{"file":"wave-01.png","x":0,"y":0,"width":1,"height":1,"z":-1,"pivot":{"x":0.5,"y":0.5}},"body":{"file":"wave-01.png","x":0,"y":0,"width":260,"height":413,"z":0,"pivot":{"x":0.5,"y":0.5}},"arm-l":{"file":"wave-01.png","x":0,"y":0,"width":1,"height":1,"z":-1,"pivot":{"x":0.5,"y":0.5}},"arm-r":{"file":"wave-01.png","x":0,"y":0,"width":1,"height":1,"z":-1,"pivot":{"x":0.5,"y":0.5}},"arm-l-wave":{"file":"wave-01.png","x":0,"y":0,"width":1,"height":1,"z":-1,"pivot":{"x":0.5,"y":0.5}},"arm-r-wave":{"file":"wave-01.png","x":0,"y":0,"width":1,"height":1,"z":-1,"pivot":{"x":0.5,"y":0.5}},"eye-open":{"file":"wave-01.png","x":0,"y":0,"width":1,"height":1,"z":-1,"pivot":{"x":0.5,"y":0.5}},"eye-closed":{"file":"wave-01.png","x":0,"y":0,"width":1,"height":1,"z":-1,"pivot":{"x":0.5,"y":0.5}},"mouth-smile":{"file":"wave-01.png","x":0,"y":0,"width":1,"height":1,"z":-1,"pivot":{"x":0.5,"y":0.5}},"mouth-o":{"file":"wave-01.png","x":0,"y":0,"width":1,"height":1,"z":-1,"pivot":{"x":0.5,"y":0.5}}},"frames":{"idle":"frames/frames.json","wave":"frames/frames.json"}},"naicha-kit/frames/frames.json":{"schemaVersion":1,"frames":{"wave":{"files":["frames/wave-01.png","frames/wave-02.png","frames/wave-03.png","frames/wave-04.png","frames/wave-05.png","frames/wave-06.png","frames/wave-07.png","frames/wave-08.png"],"count":8,"canvas":{"width":260,"height":413},"frameMs":150,"order":[1,2,3,4,5,6,7,6,5,6,7,8,1],"durationOverrides":{"1":400}},"idle":{"files":["frames/wave-01.png"],"count":1,"canvas":{"width":260,"height":413},"frameMs":150,"order":[1],"durationOverrides":{},"blink":null}},"extraction":{"wave":{"source":"naicha-cheer-8-v2-clean.png","sourceBounds":[[37,160,249,565],[303,160,523,565],[564,160,796,565],[848,160,1078,565],[1112,160,1349,565],[1368,160,1620,565],[1654,160,1889,565],[1939,160,2148,565]],"footY":[408,408,408,408,408,408,408,408],"coreAlphaThreshold":32,"discardAlphaAtMost":8,"alignment":"bottom-center"}},"eyes":{"centers":[[87.46,108.07],[154.08,107.54]],"bounds":[[82,103,94,114],[149,102,160,114]],"detected":true,"blinkDisabledReason":"Closed-eye asset unavailable/ambiguous or face texture sample out of bounds; blink disabled."}}};
+const fetch=async url=>{const key=decodeURI(String(url)).split('/library/characters/')[1];const value=embeddedTeaData[key];return {ok:!!value,status:value?200:404,json:async()=>JSON.parse(JSON.stringify(value))};};
+/** Reflect a moving character at the parent's edges, including large time steps. */
+function advanceWalk(x, direction, distance, min, max) {
+  const span = max - min;
+  if (span <= 0) return {x: 0, direction};
+  const clamped = Math.max(min, Math.min(max, x)) - min;
+  const phase = direction > 0 ? clamped : 2 * span - clamped;
+  const next = (phase + distance) % (2 * span);
+  return {x: next <= span ? min + next : max - (next - span), direction: next < span ? 1 : -1};
+}
+
+
+
+/** Portable, dependency-free tea character. All assets resolve beside this module. */
+const BASE = new URL('./library/characters/', document.baseURI);
+const CSS = new URL('./library/tea-characters.css', document.baseURI);
+const ACTIONS = new Set(['idle', 'blink', 'wave', 'float', 'walk']);
+const REQUIRED = ['head-blank', 'body', 'arm-l', 'arm-r', 'arm-l-wave', 'arm-r-wave', 'eye-open', 'eye-closed', 'mouth-smile', 'mouth-o'];
+const manifests = new Map();
+const warnings = new Set();
+
+function warnOnce(key, text) {
+  if (!warnings.has(key)) {
+    warnings.add(key);
+    console.warn(`[tea-chara] ${text}`);
+  }
+}
+
+async function getManifest(name) {
+  if (!/^[a-z0-9-]+$/.test(name)) throw new Error('角色名稱只能使用小寫英文字母、數字與連字號。');
+  const url = new URL(`${name}/manifest.json`, BASE);
+  if (!manifests.has(name)) {
+    const promise = fetch(url).then(async response => {
+      if (!response.ok) throw new Error(`找不到角色 ${name}（HTTP ${response.status}）。`);
+      const manifest = await response.json();
+      if (manifest.schemaVersion !== 1 || !(manifest.canvas?.width > 0) || !(manifest.canvas?.height > 0)) {
+        throw new Error('manifest 畫布或版本不正確。');
+      }
+      for (const key of REQUIRED) {
+        if (!manifest.parts?.[key]) throw new Error(`manifest 缺少 ${key}。`);
+      }
+      for (const part of Object.values(manifest.parts)) {
+        if (!/^[a-z0-9-]+\.png$/.test(part.file) ||
+            !['x', 'y', 'width', 'height', 'z'].every(k => Number.isFinite(part[k])) ||
+            part.width <= 0 || part.height <= 0 ||
+            ![part.pivot?.x, part.pivot?.y].every(n => Number.isFinite(n) && n >= 0 && n <= 1)) {
+          throw new Error('manifest 零件座標、檔名或軸心不正確。');
+        }
+      }
+      manifest.name = name;
+      return manifest;
+    }).catch(error => { manifests.delete(name); throw error; });
+    manifests.set(name, promise);
+  }
+  return manifests.get(name);
+}
+
+const FRAME_FILE = /^(?:[a-z0-9-]+\/)*[a-z0-9-]+\.png$/;
+
+function validateFrames(config) {
+  if (!config || !Number.isInteger(config.count) || config.count < 1 ||
+      !Array.isArray(config.files) || config.files.length !== config.count ||
+      !config.files.every(file => FRAME_FILE.test(file)) ||
+      ![config.canvas?.width, config.canvas?.height, config.frameMs].every(n => Number.isFinite(n) && n > 0) ||
+      !Array.isArray(config.order) || !config.order.length ||
+      !config.order.every(n => Number.isInteger(n) && n >= 1 && n <= config.count) ||
+      !Object.entries(config.durationOverrides || {}).every(([key, ms]) => /^[1-9]\d*$/.test(key) && Number(key) <= config.count && Number.isFinite(ms) && ms > 0)) {
+    throw new Error('分格檔名、畫布、順序或時間不正確。');
+  }
+}
+
+async function loadFrameModes(manifest, directory) {
+  const documents = new Map();
+  const result = {};
+  await Promise.all(Object.entries(manifest.frames || {}).map(async ([action, entry]) => {
+    if (!['idle', 'wave', 'walk'].includes(action)) return;
+    try {
+      let config = entry;
+      if (typeof entry === 'string') {
+        if (!/^(?:[a-z0-9-]+\/)*[a-z0-9-]+\.json$/.test(entry)) throw new Error('分格 metadata 路徑不正確。');
+        if (!documents.has(entry)) documents.set(entry, fetch(new URL(entry, directory)).then(async response => {
+          if (!response.ok) throw new Error('找不到分格 metadata。');
+          return response.json();
+        }));
+        config = (await documents.get(entry)).frames?.[action];
+      }
+      validateFrames(config);
+      const window = document.createElement('div'); window.className = 'frame-window'; window.hidden = true;
+      const track = document.createElement('div'); track.className = 'frame-track';
+      track.style.width = `${config.count * 100}%`;
+      window.append(track);
+      const makeImage = file => {
+        const image = new Image(); image.alt = ''; image.draggable = false;
+        image.src = new URL(file, directory).href; return image;
+      };
+      const images = config.files.map(file => {
+        const image = makeImage(file);
+        image.style.width = `${100 / config.count}%`;
+        image.style.flex = `0 0 ${100 / config.count}%`;
+        track.append(image); return image;
+      });
+      await Promise.all(images.map(image => image.decode()));
+      const mode = {config, window, track};
+      if (action === 'idle' && config.blink) {
+        try {
+          const b = config.blink;
+          if (!FRAME_FILE.test(b.base) || !FRAME_FILE.test(b.file) ||
+              !['x','y','width','height'].every(k => Number.isFinite(b[k])) || b.width <= 0 || b.height <= 0) throw new Error('眨眼座標不正確。');
+          const layer = document.createElement('div'); layer.className = 'frame-blink'; layer.hidden = true;
+          const base = makeImage(b.base); base.className = 'frame-blink-base';
+          const eyelids = makeImage(b.file); eyelids.className = 'frame-eyelids';
+          Object.assign(eyelids.style, {
+            left: `${b.x / config.canvas.width * 100}%`, top: `${b.y / config.canvas.height * 100}%`,
+            width: `${b.width / config.canvas.width * 100}%`, height: `${b.height / config.canvas.height * 100}%`,
+          });
+          await Promise.all([base.decode(), eyelids.decode()]);
+          layer.append(base, eyelids); window.append(layer); mode.blinkLayer = layer;
+        } catch (error) { warnOnce(`frame-blink:${manifest.name}`, `${manifest.name} 分格眨眼停用：${error.message}`); }
+      }
+      result[action] = mode;
+    } catch (error) {
+      warnOnce(`frames:${manifest.name}:${action}`, `${manifest.name}/${action} 分格不可用，保留零件式 fallback：${error.message}`);
+    }
+  }));
+  return result;
+}
+
+class TeaChara extends HTMLElement {
+  static observedAttributes = ['name', 'action', 'size', 'loop', 'flip', 'mode', 'frames', 'frame', 'breathe'];
+
+  constructor() {
+    super();
+    this.attachShadow({mode: 'open'});
+    this._generation = 0;
+    this._timers = new Set();
+    this._motion = matchMedia('(prefers-reduced-motion: reduce)');
+    this._onMotion = () => this._applyAction();
+    this._onVisibility = () => this._applyAction();
+  }
+
+  connectedCallback() {
+    this._motion.addEventListener('change', this._onMotion);
+    document.addEventListener('visibilitychange', this._onVisibility);
+    this._load();
+  }
+
+  disconnectedCallback() {
+    ++this._generation;
+    this._clearTimers();
+    this._motion.removeEventListener('change', this._onMotion);
+    document.removeEventListener('visibilitychange', this._onVisibility);
+  }
+
+  attributeChangedCallback(name, oldValue, value) {
+    if (!this.isConnected || oldValue === value) return;
+    if (name === 'name') this._load();
+    else if (name === 'size') this._resize();
+    else this._applyAction();
+  }
+
+  /** Replay an action, including a second one-shot wave with the same attribute. */
+  play(action = 'idle') {
+    if (this.getAttribute('action') === action) this._applyAction();
+    else this.setAttribute('action', action);
+  }
+
+  /** Select a 1-based source frame; flipbook wraps it to the loaded frame count. */
+  setFrame(n) {
+    this.setAttribute('frame', String(n));
+  }
+
+  _later(callback, delay) {
+    const id = setTimeout(() => { this._timers.delete(id); callback(); }, delay);
+    this._timers.add(id);
+  }
+
+  _clearTimers() {
+    for (const id of this._timers) clearTimeout(id);
+    this._timers.clear();
+    cancelAnimationFrame(this._raf);
+    this._raf = null;
+    this._frameAnimation?.cancel();
+    this._frameAnimation = null;
+  }
+
+  async _load() {
+    const generation = ++this._generation;
+    this._clearTimers();
+    this._manifest = null;
+    this.dataset.state = 'loading';
+    this.shadowRoot.replaceChildren();
+    this.setAttribute('role', 'img');
+    const name = this.getAttribute('name') || 'xiaoye';
+    this.setAttribute('aria-label', `${name} 載入中`);
+    try {
+      const manifest = await getManifest(name);
+      if (!this.isConnected || generation !== this._generation) return;
+      const sheet = document.createElement('link');
+      sheet.rel = 'stylesheet'; sheet.href = CSS.href;
+      const stage = document.createElement('div'); stage.className = 'stage';
+      stage.setAttribute('aria-hidden', 'true');
+      stage.innerHTML = '<div class="shadow"></div><div class="travel"><div class="mirror"><div class="float"><div class="breath"><div class="rig"></div></div></div></div></div>';
+      const rig = stage.querySelector('.rig');
+      const images = [];
+      const directory = new URL(`${name}/`, BASE);
+      for (const [key, part] of Object.entries(manifest.parts)) {
+        // Only waving arms have authored baselines; resting parts stay neutral.
+        const wavingArm = key === 'arm-l-wave' || key === 'arm-r-wave';
+        const baseAngle = wavingArm && Number.isFinite(part.rotation) ? part.rotation : 0;
+        const element = document.createElement('div');
+        element.className = 'part'; element.dataset.part = key;
+        Object.assign(element.style, {
+          left: `${part.x / manifest.canvas.width * 100}%`, top: `${part.y / manifest.canvas.height * 100}%`,
+          width: `${part.width / manifest.canvas.width * 100}%`, height: `${part.height / manifest.canvas.height * 100}%`,
+          zIndex: String(part.z), transform: `rotate(${baseAngle}deg)`, transformOrigin: `${part.pivot.x * 100}% ${part.pivot.y * 100}%`,
+        });
+        const img = new Image(); img.alt = ''; img.draggable = false;
+        if (wavingArm) element.style.setProperty('--base-angle', `${baseAngle}deg`);
+        img.src = new URL(part.file, directory).href;
+        element.append(img); images.push(img);
+        if (key.startsWith('arm-')) {
+          const pivot = document.createElement('span'); pivot.className = 'pivot';
+          pivot.dataset.pivot = key;
+          pivot.style.left = `${(part.x + part.width * part.pivot.x) / manifest.canvas.width * 100}%`;
+          pivot.style.top = `${(part.y + part.height * part.pivot.y) / manifest.canvas.height * 100}%`;
+          rig.append(pivot);
+          if (wavingArm) {
+            const guide = document.createElement('span'); guide.className = 'wave-guide';
+            guide.dataset.guide = key;
+            guide.style.left = pivot.style.left; guide.style.top = pivot.style.top;
+            guide.style.setProperty('--base-angle', `${baseAngle}deg`);
+            const ray = document.createElement('i');
+            const label = document.createElement('b'); label.textContent = `基準 ${baseAngle}°`;
+            guide.append(ray, label); rig.append(guide);
+          }
+        }
+        rig.append(element);
+      }
+      const walkWindow = document.createElement('div'); walkWindow.className = 'walk-window'; walkWindow.hidden = true;
+      const openTrack = document.createElement('div'); openTrack.className = 'walk-track open';
+      const closedTrack = document.createElement('div'); closedTrack.className = 'walk-track closed';
+      walkWindow.append(openTrack, closedTrack); stage.querySelector('.breath').append(walkWindow);
+      const walkImages = []; const blinkImages = [];
+      const validFrames = (files, prefix) => Array.isArray(files) && files.length === 4 && files.every((file,i) => file === `${prefix}${i+1}.png`);
+      const addFrames = (files, track, list) => {
+        for (const file of files) {
+          const frame = new Image(); frame.alt = ''; frame.draggable = false;
+          frame.src = new URL(file, directory).href; track.append(frame); list.push(frame);
+        }
+      };
+      if (validFrames(manifest.walkFrames, 'walk-')) addFrames(manifest.walkFrames, openTrack, walkImages);
+      if (validFrames(manifest.walkBlinkFrames, 'walk-blink-')) addFrames(manifest.walkBlinkFrames, closedTrack, blinkImages);
+      await Promise.all(images.map(img => img.decode()));
+      const frames = await Promise.allSettled(walkImages.map(img => img.decode()));
+      const blinkFrames = await Promise.allSettled(blinkImages.map(img => img.decode()));
+      const frameModes = await loadFrameModes(manifest, directory);
+      if (!this.isConnected || generation !== this._generation) return;
+      this._frameModes = frameModes;
+      for (const mode of Object.values(frameModes)) stage.querySelector('.breath').append(mode.window);
+      this._walkImages = frames.some(result => result.status === 'rejected') ? [] : walkImages;
+      this._walkBlinkReady = blinkImages.length === 4 && blinkFrames.every(result => result.status === 'fulfilled');
+      this._walkWindow = walkWindow;
+      this._manifest = manifest; this._stage = stage; this._rig = rig;
+      this.shadowRoot.replaceChildren(sheet, stage);
+      this._resize(); this._applyAction();
+      this.dataset.state = 'ready';
+      this.setAttribute('aria-label', manifest.label || name);
+      this.dispatchEvent(new CustomEvent('tea-ready', {bubbles: true}));
+    } catch (error) {
+      if (generation !== this._generation || !this.isConnected) return;
+      this.dataset.state = 'error';
+      this.shadowRoot.textContent = '角色載入失敗';
+      this.setAttribute('aria-label', `${name} 載入失敗`);
+      console.error('[tea-chara]', error.message);
+      this.dispatchEvent(new CustomEvent('tea-error', {detail: error.message, bubbles: true}));
+    }
+  }
+
+  _resize() {
+    const requested = Number(this.getAttribute('size') || 220);
+    const size = Number.isFinite(requested) && requested > 0 ? requested : 220;
+    this.style.height = `${size}px`;
+    const walk = this.dataset.action === 'walk' && this._walkImages?.[0];
+    const canvas = this._activeFrames?.config.canvas;
+    const ratio = canvas ? canvas.width / canvas.height : walk ? walk.naturalWidth / walk.naturalHeight : this._manifest ? this._manifest.canvas.width / this._manifest.canvas.height : .625;
+    this.style.width = `${size * ratio}px`;
+  }
+
+  _setBlink(closed) {
+    if (this._activeFrames) {
+      const {track, blinkLayer} = this._activeFrames;
+      if (blinkLayer) { blinkLayer.hidden = !closed; track.hidden = closed; }
+      return;
+    }
+    this._walkWindow?.classList.toggle('blinking', closed && this._walkBlinkReady);
+    this._rig.querySelector('[data-part="eye-open"]').hidden = closed;
+    this._rig.querySelector('[data-part="eye-closed"]').hidden = !closed;
+  }
+
+  _blink() {
+    this._setBlink(true);
+    this._later(() => this._setBlink(false), 120);
+  }
+
+  _scheduleBlink() {
+    this._later(() => { this._blink(); this._scheduleBlink(); }, 3000 + Math.random() * 2000);
+  }
+
+  _beginWalk() {
+    let x = 0; let direction = this.hasAttribute('flip') ? -1 : 1; let last;
+    const travel = this._stage.querySelector('.travel');
+    const animate = time => {
+      const dt = last === undefined ? 0 : Math.min((time - last) / 1000, .1); last = time;
+      const parent = this.parentElement;
+      if (!parent) return;
+      const container = parent.getBoundingClientRect(); const box = this.getBoundingClientRect();
+      const style = getComputedStyle(parent);
+      const min = container.left + parseFloat(style.paddingLeft) + parseFloat(style.borderLeftWidth) - box.left;
+      const max = container.right - parseFloat(style.paddingRight) - parseFloat(style.borderRightWidth) - box.right;
+      ({x, direction} = advanceWalk(x, direction, dt * 42 * box.height / 220, min, max));
+      travel.style.transform = `translateX(${x}px)`;
+      this._stage.style.setProperty('--walk-facing', direction);
+      this.dataset.direction = direction > 0 ? 'right' : 'left';
+      this._raf = requestAnimationFrame(animate);
+    };
+    this._raf = requestAnimationFrame(animate);
+  }
+
+  _showFrames(action, paused) {
+    for (const mode of Object.values(this._frameModes || {})) {
+      mode.window.hidden = true; mode.track.hidden = false;
+      if (mode.blinkLayer) mode.blinkLayer.hidden = true;
+    }
+    const key = ['idle', 'blink', 'float'].includes(action) ? 'idle' : action;
+    const mode = this._frameModes?.[key];
+    this._activeFrames = mode;
+    this.dataset.mode = mode ? 'frames' : 'parts';
+    if (!mode) return false;
+    this._stage.className += ' frame-mode';
+    mode.window.hidden = false;
+    const {config, track} = mode;
+    const position = n => `translateX(${-(n - 1) * 100 / config.count}%)`;
+    track.style.transform = position(config.order[0]);
+    if (!paused) {
+      const durations = config.order.map(n => config.durationOverrides?.[n] ?? config.frameMs);
+      const duration = durations.reduce((sum, ms) => sum + ms, 0);
+      let elapsed = 0;
+      const keyframes = config.order.map((n, i) => {
+        const keyframe = {transform: position(n), offset: elapsed / duration, easing: 'steps(1, end)'};
+        elapsed += durations[i]; return keyframe;
+      });
+      keyframes.push({transform: position(config.order.at(-1)), offset: 1, easing: 'steps(1, end)'});
+      const loop = action !== 'wave' || this.hasAttribute('loop');
+      if (config.order.length > 1) this._frameAnimation = track.animate(keyframes, {duration, iterations: loop ? Infinity : 1, fill: 'forwards'});
+      if (action === 'wave' && !loop) this._later(() => this.play('idle'), duration);
+    }
+    return true;
+  }
+
+  _applyFlipbook(paused) {
+    const requested = this.getAttribute('frames') || 'walk';
+    const key = ['idle', 'wave', 'walk'].includes(requested) && this._frameModes?.[requested] ? requested : 'idle';
+    if (key !== requested) warnOnce(`flipbook:${this._manifest.name}:${requested}`, `翻頁書 ${requested} 不可用，顯示靜態 idle。`);
+    this.dataset.action = 'flipbook';
+    this._stage.className = 'stage static flipbook';
+    const useFrames = this._showFrames(key, true);
+    this.dataset.mode = 'flipbook';
+    this._rig.hidden = useFrames;
+    this._walkWindow.hidden = true;
+    this._stage.querySelector('.travel').style.transform = '';
+    if (useFrames) {
+      const {config, track} = this._activeFrames;
+      const value = Number(this.getAttribute('frame') ?? 1);
+      const index = ((Number.isFinite(value) ? Math.trunc(value) - 1 : 0) % config.count + config.count) % config.count;
+      track.style.transform = `translateX(${-index * 100 / config.count}%)`;
+    } else {
+      // Missing frame assets still get a neutral, non-animated legacy pose.
+      for (const key of ['arm-l', 'arm-r', 'eye-open']) this._rig.querySelector(`[data-part="${key}"]`).hidden = false;
+      for (const key of ['arm-l-wave', 'arm-r-wave', 'eye-closed']) this._rig.querySelector(`[data-part="${key}"]`).hidden = true;
+      this._rig.querySelector('[data-part="mouth-o"]').hidden = this._manifest.defaultMouth !== 'mouth-o';
+      this._rig.querySelector('[data-part="mouth-smile"]').hidden = this._manifest.defaultMouth === 'mouth-o';
+    }
+    this._resize();
+    if (!paused && this.hasAttribute('breathe')) {
+      this._later(() => { this._stage.className += ' flipbook-breathing'; }, 2000);
+    }
+  }
+
+  _applyAction() {
+    this._clearTimers();
+    if (!this._manifest || !this.isConnected) return;
+    if (this.getAttribute('mode') === 'flipbook') {
+      this._applyFlipbook(this._motion.matches || document.hidden);
+      return;
+    }
+    let action = this.getAttribute('action') || 'idle';
+    if (!ACTIONS.has(action)) {
+      warnOnce(`action:${action}`, `未知動作「${action}」，改用 idle。`); action = 'idle';
+    }
+    if (action === 'walk' && !this._frameModes?.walk && this._walkImages.length !== 4) {
+      warnOnce(`walk:${this._manifest.name}`, `${this._manifest.name} 缺少 walk-1..4.png，改用 idle。`);
+      action = 'idle';
+    }
+    const paused = this._motion.matches || document.hidden;
+    if (paused) action = 'idle';
+    this.dataset.action = action;
+    this._stage.className = `stage ${paused ? 'static' : 'moving'} action-${action}`;
+    const useFrames = this._showFrames(action, paused);
+    this._rig.hidden = useFrames || action === 'walk';
+    this._walkWindow.hidden = useFrames || action !== 'walk';
+    this._walkWindow.classList.remove('blinking');
+    this._stage.querySelector('.travel').style.transform = '';
+    this._resize();
+    for (const [key, visible] of Object.entries({
+      'eye-open': true, 'eye-closed': false,
+      'mouth-o': this._manifest.defaultMouth === 'mouth-o',
+      'mouth-smile': this._manifest.defaultMouth !== 'mouth-o',
+      'arm-l': true, 'arm-r': true,
+      'arm-l-wave': action === 'wave', 'arm-r-wave': action === 'wave',
+    })) {
+      const part = this._rig.querySelector(`[data-part="${key}"]`);
+      if (part) part.hidden = !visible;
+      const pivot = this._rig.querySelector(`[data-pivot="${key}"]`);
+      if (pivot) pivot.hidden = !visible;
+      const guide = this._rig.querySelector(`[data-guide="${key}"]`);
+      if (guide) guide.hidden = !visible;
+    }
+    if (paused) return;
+    if (action === 'wave' && !useFrames) {
+      const arms = ['arm-l', 'arm-r', 'arm-l-wave', 'arm-r-wave'].map(key => this._rig.querySelector(`[data-part="${key}"]`));
+      for (const arm of arms) arm.style.animation = 'none';
+      void this._rig.offsetWidth;
+      for (const arm of arms) arm.style.animation = '';
+      // Match the CSS timeline: .2s raise + 3 × .6s swing + .35s lower.
+      if (!this.hasAttribute('loop')) this._later(() => this.play('idle'), 2350);
+    }
+    if (action === 'blink') this._blink();
+    if (action === 'walk') this._beginWalk();
+    if (!useFrames || this._activeFrames.blinkLayer) this._scheduleBlink();
+  }
+}
+
+if (!customElements.get('tea-chara')) customElements.define('tea-chara', TeaChara);
+
+})();
+</script>
+</body></html>

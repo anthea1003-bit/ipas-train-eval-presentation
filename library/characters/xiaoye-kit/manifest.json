@@ -1,0 +1,136 @@
+{
+  "schemaVersion": 1,
+  "name": "xiaoye-kit",
+  "label": "小葉球衣",
+  "canvas": {
+    "width": 233,
+    "height": 467
+  },
+  "notes": "熱身小跳，8 格整格動畫，沿用 wave 動作槽。無 walk、無專屬閉眼素材，停用 blink。播放器強制要求 10 個 parts 與根目錄 PNG，故共用首格備援圖；正常播放時整個 rig 隱藏。",
+  "parts": {
+    "head-blank": {
+      "file": "wave-01.png",
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1,
+      "z": -1,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "body": {
+      "file": "wave-01.png",
+      "x": 0,
+      "y": 0,
+      "width": 233,
+      "height": 467,
+      "z": 0,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "arm-l": {
+      "file": "wave-01.png",
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1,
+      "z": -1,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "arm-r": {
+      "file": "wave-01.png",
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1,
+      "z": -1,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "arm-l-wave": {
+      "file": "wave-01.png",
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1,
+      "z": -1,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "arm-r-wave": {
+      "file": "wave-01.png",
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1,
+      "z": -1,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "eye-open": {
+      "file": "wave-01.png",
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1,
+      "z": -1,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "eye-closed": {
+      "file": "wave-01.png",
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1,
+      "z": -1,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "mouth-smile": {
+      "file": "wave-01.png",
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1,
+      "z": -1,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "mouth-o": {
+      "file": "wave-01.png",
+      "x": 0,
+      "y": 0,
+      "width": 1,
+      "height": 1,
+      "z": -1,
+      "pivot": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "frames": {
+    "idle": "frames/frames.json",
+    "wave": "frames/frames.json"
+  }
+}
