@@ -59,41 +59,8 @@ button:disabled{cursor:default;opacity:.55}button:disabled:hover{background:tran
 <div class="takeaway-layout"><div class="takeaways"><p>練習 train() 隨機關燈，比賽 eval() 全亮</p><p>eval() 切模式，no_grad() 只關梯度</p><p>同一張圖結果會變，先看有沒有忘了 eval()</p></div><div class="tea-slot"><tea-chara name="naicha-kit" action="idle" size="200" data-wave-on-enter aria-label="奶茶球衣舉手歡呼"></tea-chara></div></div>
 </div></section>
 <section class="slide " id="s7" aria-labelledby="title7" aria-hidden="true" inert><div class="shell"><header class="section-head"><h2 id="title7" tabindex="-1">📖 回家作業</h2><span class="home-tag">📖 回家作業</span></header>
-<div class="homework"><article class="quiz" id="q42" data-answer="D">
-<h3>回家作業 ①</h3><p class="context">下圖為工程師以 PyTorch 撰寫的影像分類訓練與驗證流程（模型內含 Dropout 與 BatchNorm 層）。請回答第 42～43 題。</p><details class="code-notes" open><summary>程式與逐行白話</summary><table class="code-table" data-code-block="1"><thead><tr><th>程式</th><th>白話</th></tr></thead><tbody>
-<tr><td><pre><code>model.train()                                     # 行1</code></pre></td><td>告訴模型：現在是練習</td></tr>
-<tr><td><pre><code>for epoch in range(EPOCHS):</code></pre></td><td>整份教材從頭到尾讀一遍叫一輪，重複很多輪</td></tr>
-<tr><td><pre><code>    for xb, yb in train_loader:</code></pre></td><td>一次拿一小批題目（xb）和答案（yb）</td></tr>
-<tr><td><pre><code>        optimizer.zero_grad()                     # 行2</code></pre></td><td>把上一批留下的修正筆記擦掉</td></tr>
-<tr><td><pre><code>        loss = criterion(model(xb), yb)</code></pre></td><td>模型作答，跟標準答案比，算出錯多少</td></tr>
-<tr><td><pre><code>        loss.backward()</code></pre></td><td>從錯誤往回推，算出每個參數該往哪邊修（梯度）</td></tr>
-<tr><td><pre><code>        optimizer.step()                          # 行3</code></pre></td><td>照著修正筆記真的去改參數</td></tr>
-<tr><td><pre><code>    scheduler.step()                              # 行4</code></pre></td><td>這一輪結束，調整一下學習的步伐大小</td></tr>
-<tr><td><pre><code>    correct = 0</code></pre></td><td>答對題數從 0 開始數</td></tr>
-<tr><td><pre><code>    with torch.no_grad():                         # 行5</code></pre></td><td>接下來只是看成績，不記梯度</td></tr>
-<tr><td><pre><code>        for xb, yb in val_loader:</code></pre></td><td>一次拿一小批驗證題</td></tr>
-<tr><td><pre><code>            pred = model(xb).argmax(dim=1)        # 行6</code></pre></td><td>模型作答，挑分數最高的那個類別當答案</td></tr>
-<tr><td><pre><code>            correct += (pred == yb).sum().item()</code></pre></td><td>數一數答對幾題</td></tr>
-<tr><td><pre><code>    print(epoch, correct / len(val_loader.dataset))</code></pre></td><td>印出這一輪的驗證正確率</td></tr>
-</tbody></table></details><div class="question"><p>42. 參考上方程式，下列哪一項描述組合正確？</p><div class="statements"><p>描述 A：行 2 若移除，梯度會在每個 batch 之間累加，等同放大學習率並使更新方向錯誤</p><p>描述 B：行 4 的 scheduler.step() 放在每個 epoch 結束後呼叫，對 StepLR／CosineAnnealingLR 等以 epoch 為單位的排程器而言是正確位置</p><p>描述 C：行 5 的 torch.no_grad() 會自動將 Dropout 與 BatchNorm 切換為推論模式</p><p>描述 D：行 6 的 argmax 之前必須先套用 softmax，否則預測類別會錯誤</p><p>描述 E：驗證迴圈前未呼叫 model.eval()，Dropout 仍會隨機關閉神經元、BatchNorm 仍以當前批次統計量正規化並更新 running statistics，導致驗證準確率被低估且不穩定</p><p>描述 F：行 5 的作用是停止建立計算圖以節省記憶體與時間，但不改變任何層的行為模式</p></div></div>
-<div class="options">
-<button type="button" class="option" aria-pressed="false">(A) 描述 A、描述 C、描述 D</button>
-<button type="button" class="option" aria-pressed="false">(B) 描述 B、描述 C、描述 E</button>
-<button type="button" class="option" aria-pressed="false">(C) 描述 A、描述 D、描述 F</button>
-<button type="button" class="option" aria-pressed="false">(D) 描述 A、描述 B、描述 E、描述 F</button>
-</div>
-<div class="feedback" hidden><p class="result">正解：D</p><p>先刪確定錯的——描述 C（no_grad 只關梯度，不會切換練習／比賽模式）、描述 D（挑最高分不需要先換算成機率）；四個選項只有 (D) 兩個都沒有。再看描述 E 說的是什麼：驗證前沒有 model.eval()，驗證時還在練習模式——Dropout 還在關燈、BatchNorm 還在用「這一批」的平均與變異數——驗證成績通常偏低又不穩。</p></div>
-</article><article class="quiz" id="q43" data-answer="A">
-<h3>回家作業 ②</h3><p class="question">43. 承上題，若要修正該程式在驗證階段的問題，下列作法何者最正確？</p>
-<div class="options">
-<button type="button" class="option" aria-pressed="false">(A) 在驗證迴圈之前呼叫 model.eval()，驗證結束、下一個 epoch 開始訓練前再呼叫 model.train()；</button>
-<button type="button" class="option" aria-pressed="false">(B) 只需將行 5 的 torch.no_grad() 改為 torch.enable_grad()；</button>
-<button type="button" class="option" aria-pressed="false">(C) 在行 6 之前加入 torch.softmax(model(xb), dim=1)；</button>
-<button type="button" class="option" aria-pressed="false">(D) 移除模型中所有 Dropout 與 BatchNorm 層</button>
-</div>
-<div class="feedback" hidden><p class="result">正解：A</p><p>驗證前換成比賽模式，驗證完要記得換回練習模式，下一輪才會繼續關燈練習。</p></div>
-</article><article class="quiz" id="q-bn" data-answer="B">
-<h3>回家作業 ③</h3><p class="question">附圖程式碼實現的是哪一種技術？</p><details class="code-notes" open><summary>程式與逐行白話</summary><table class="code-table" data-code-block="2"><thead><tr><th>程式</th><th>白話</th></tr></thead><tbody>
+<div class="homework"><article class="quiz" id="q-bn" data-answer="B">
+<h3>回家作業 ①</h3><p class="question">附圖程式碼實現的是哪一種技術？</p><details class="code-notes" open><summary>程式與逐行白話</summary><table class="code-table" data-code-block="2"><thead><tr><th>程式</th><th>白話</th></tr></thead><tbody>
 <tr><td><pre><code>def forward(self, x, training=True):</code></pre></td><td>這一層收到一批資料 x，還要知道現在是不是練習</td></tr>
 <tr><td><pre><code>    if training:</code></pre></td><td>如果是練習</td></tr>
 <tr><td><pre><code>        mean, var = x.mean(axis=0), x.var(axis=0)</code></pre></td><td>算「這一批」的平均和變異數</td></tr>
@@ -111,7 +78,7 @@ button:disabled{cursor:default;opacity:.55}button:disabled:hover{background:tran
 </div>
 <div class="feedback" hidden><p class="result">正解：B</p><p>練習用這一批、比賽用長期累積——這就是 Batch Normalization 的練習模式和比賽模式；Dropout 的分支會出現隨機關燈，不會有平均和變異數。</p></div>
 </article><article class="quiz" id="q-return" data-answer="C">
-<h3>回家作業 ④</h3><p class="question">某工程師在每一輪訓練後都先呼叫 model.eval() 再跑驗證，但驗證結束後沒有呼叫 model.train() 就直接進入下一輪訓練。模型含 Dropout 與 Batch Normalization 層。下列敘述何者最正確？</p>
+<h3>回家作業 ②</h3><p class="question">某工程師在每一輪訓練後都先呼叫 model.eval() 再跑驗證，但驗證結束後沒有呼叫 model.train() 就直接進入下一輪訓練。模型含 Dropout 與 Batch Normalization 層。下列敘述何者最正確？</p>
 <div class="options">
 <button type="button" class="option" aria-pressed="false">(A) 沒有影響，optimizer.step() 會自動把模型切回訓練模式</button>
 <button type="button" class="option" aria-pressed="false">(B) 訓練會報錯，因為 eval 模式下無法計算梯度</button>
