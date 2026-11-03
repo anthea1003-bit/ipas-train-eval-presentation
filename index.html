@@ -22,17 +22,17 @@ button:disabled{cursor:default;opacity:.55}button:disabled:hover{background:tran
 @keyframes fade-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @media(max-width:900px){:root{--footer-height:116px}.footer{flex-wrap:wrap;gap:4px;padding:8px 4vw 11px}.footer-notes{flex-basis:100%}.footer .bridge{font-size:15px}.controls{gap:8px}.section-head h2{font-size:32px}.hero{grid-template-columns:minmax(0,1fr) 180px}.hero h1{font-size:38px}.compare-layout{gap:12px}.code-table td{font-size:16px}.takeaway-layout{grid-template-columns:minmax(0,1fr) 160px}.takeaways p{font-size:26px}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.takeaways p{opacity:1;transform:none}}
-</style>
+pre code mark,.code-table mark{background:#f3e48a;color:inherit;padding:0 2px;border-radius:3px}</style>
 </head><body>
 <main class="deck"><section class="slide cover" id="s1" aria-labelledby="cover-title" aria-hidden="true" inert><div class="shell"><div class="hero"><div><div class="cover-rule"></div><h1 id="cover-title" tabindex="-1">練習賽和正式賽，現在是哪一場？</h1><p class="subtitle">train／eval 模式：Dropout 與 Batch Normalization｜iPAS AI 應用規劃師中級 科目三</p></div><div class="tea-slot"><tea-chara name="xiaoye-kit" action="idle" size="260" data-wave-on-enter aria-label="小葉球衣熱身小跳"></tea-chara></div></div></div></section><section class="slide " id="s2" aria-labelledby="title2" aria-hidden="true" inert><div class="shell"><header class="section-head"><h2 id="title2" tabindex="-1">第 45 題</h2></header>
 <div class="content"><article class="quiz" id="q45" data-answer="A">
 <p class="question">執行下列程式，輸出會是什麼？</p><table class="code-table" data-code-block="0"><thead><tr><th>程式</th><th>白話</th></tr></thead><tbody>
 <tr><td><pre><code>import torch, torch.nn as nn</code></pre></td><td>把 PyTorch 工具箱拿進來</td></tr>
 <tr><td><pre><code>torch.manual_seed(0)</code></pre></td><td>把骰子的起點固定，整段程式重跑一次會得到同一串隨機結果</td></tr>
-<tr><td><pre><code>d = nn.Dropout(0.5)</code></pre></td><td>做一個 Dropout 開關，練習時每顆燈各有一半機率被關掉</td></tr>
+<tr><td><pre><code>d = <mark>nn.Dropout(0.5)</mark></code></pre></td><td>做一個 Dropout 開關，練習時每顆燈各有一半機率被關掉</td></tr>
 <tr><td><pre><code>x = torch.ones(1000)</code></pre></td><td>準備 1000 顆燈，每顆亮度都是 1</td></tr>
-<tr><td><pre><code>d.eval()</code></pre></td><td>告訴 Dropout：現在是比賽，不要關燈</td></tr>
-<tr><td><pre><code>print(bool((d(x) == x).all()))</code></pre></td><td>把燈送進 Dropout，檢查「每一顆」出來是不是跟進去時一模一樣，印出 True／False</td></tr>
+<tr><td><pre><code><mark>d.eval()</mark></code></pre></td><td>告訴 Dropout：現在是比賽，不要關燈</td></tr>
+<tr><td><pre><code>print(bool(<mark>(d(x) == x)</mark>.all()))</code></pre></td><td>把燈送進 Dropout，檢查「每一顆」出來是不是跟進去時一模一樣，印出 True／False</td></tr>
 </tbody></table>
 <div class="options">
 <button type="button" class="option" aria-pressed="false">(A) True</button>
@@ -44,15 +44,15 @@ button:disabled{cursor:default;opacity:.55}button:disabled:hover{background:tran
 </article></div>
 </div></section>
 <section class="slide " id="s3" aria-labelledby="title3" aria-hidden="true" inert><div class="shell"><header class="section-head"><h2 id="title3" tabindex="-1">一排燈泡</h2></header>
-<div class="content"><div class="bulb-head"><p id="bulb-mode" class="mode-label">比賽模式 eval()</p><p id="total" class="total" aria-live="polite">總亮度 8</p></div><div id="bulbs" class="bulb-row" aria-label="八顆燈泡"></div><div class="bulb-buttons"><button id="train" type="button" aria-pressed="false">練習模式 train()　再抽一次</button><button id="eval" type="button" aria-pressed="true">比賽模式 eval()</button><button id="predict" type="button" aria-expanded="false" aria-controls="prediction">同一張圖預測兩次</button></div><div class="bulb-copy"><p>練習：每顆燈以機率 p 被關掉（變 0）；還亮的燈 ＝ 原本的值 × 1/(1−p)，這題 p = 0.5，所以 1 × 1/(1−0.5) ＝ 2，整排的平均亮度才跟原本一樣</p><p>比賽：全部的燈原樣亮著——練習是「輪流上場練默契」，比賽是「全員上場拿成績」</p><p>哪幾顆被關掉是隨機的，幾乎每次都不一樣</p></div><div id="prediction" class="prediction mini" hidden><div class="prediction-line"><span>第一次</span><div id="prediction-first" class="bulb-row"></div></div><div class="prediction-line"><span>第二次</span><div id="prediction-second" class="bulb-row"></div></div><p id="prediction-note" class="prediction-note" aria-live="polite"></p></div></div>
+<div class="content"><div class="bulb-head"><p id="bulb-mode" class="mode-label">比賽模式 eval()</p><p id="total" class="total" aria-live="polite">總亮度 8</p></div><div id="bulbs" class="bulb-row" aria-label="八顆燈泡"></div><div class="bulb-buttons"><button id="train" type="button" aria-pressed="false">練習模式 train()　再抽一次</button><button id="eval" type="button" aria-pressed="true">比賽模式 eval()</button><button id="predict" type="button" aria-expanded="false" aria-controls="prediction">同一張圖預測兩次</button></div><div class="bulb-copy"><p>練習：隨機關掉一半的燈（變 0）；還亮的燈 ＝ 原本的值 × 1/(1−p)，這題 p = 0.5，所以 1 × 1/(1−0.5) ＝ 2，整排總亮度才跟原本一樣（8）</p><p>比賽：全部的燈原樣亮著——練習是「輪流上場練默契」，比賽是「全員上場拿成績」</p><p>哪幾顆被關掉是隨機的，幾乎每次都不一樣</p></div><div id="prediction" class="prediction mini" hidden><div class="prediction-line"><span>第一次</span><div id="prediction-first" class="bulb-row"></div></div><div class="prediction-line"><span>第二次</span><div id="prediction-second" class="bulb-row"></div></div><p id="prediction-note" class="prediction-note" aria-live="polite"></p></div></div>
 </div></section>
 <section class="slide " id="s4" aria-labelledby="title4" aria-hidden="true" inert><div class="shell"><header class="section-head"><h2 id="title4" tabindex="-1">一行切換三件事</h2></header>
 <div class="content"><div class="compare-layout"><table class="compare"><thead><tr><th></th><th>練習 <code>model.train()</code></th><th>比賽 <code>model.eval()</code></th></tr></thead><tbody><tr><th>Dropout</th><td>隨機叫一部分隊員坐板凳（輸出歸 0），留下的調亮</td><td>全員上場，原樣輸出（指引說法：不再丟棄神經元）</td></tr><tr><th>批次正規化<br>（Batch Normalization）</th><td>用這一批資料的平均與變異數來校正，並累積成長期的平均與變異數</td><td>用練習時累積的長期平均與變異數</td></tr><tr><th>同一張圖預測兩次</th><td>結果可能不一樣</td><td>每次都一樣（其他條件固定時）</td></tr></tbody></table><img class="art" src="assets/p04.png" alt="小人換上正式球衣"></div><p class="no-grad"><code>torch.no_grad()</code> → 只是不記梯度（省記憶體）；不會切換練習／比賽，Dropout 與 BatchNorm 還是照原本的模式做事</p><p class="mantra">eval() 切模式，no_grad() 只關梯度</p></div>
 </div></section>
 <section class="slide " id="s5" aria-labelledby="title5" aria-hidden="true" inert><div class="shell"><header class="section-head"><h2 id="title5" tabindex="-1">回到第 45 題</h2></header>
 <div class="content"><div class="reason-layout"><div class="reason-left"><table class="code-table" data-code-block="0"><thead><tr><th>程式</th><th>白話</th></tr></thead><tbody>
-<tr><td><pre><code>d.eval()</code></pre></td><td>告訴 Dropout：現在是比賽，不要關燈</td></tr>
-<tr><td><pre><code>print(bool((d(x) == x).all()))</code></pre></td><td>把燈送進 Dropout，檢查「每一顆」出來是不是跟進去時一模一樣，印出 True／False</td></tr>
+<tr><td><pre><code><mark>d.eval()</mark></code></pre></td><td>告訴 Dropout：現在是比賽，不要關燈</td></tr>
+<tr><td><pre><code>print(bool(<mark>(d(x) == x)</mark>.all()))</code></pre></td><td>把燈送進 Dropout，檢查「每一顆」出來是不是跟進去時一模一樣，印出 True／False</td></tr>
 </tbody></table><img class="art" src="assets/p05.png" alt="小人舉著亮燈泡"></div><div class="reasons"><details class="reason"><summary>為什麼是 True</summary><div class="reason-body">d.eval() 之後是比賽模式，1000 顆燈原樣出來，每顆都跟進去時一樣。</div></details><details class="reason" id="without-eval"><summary>如果把 d.eval() 這行拿掉</summary><div class="reason-body"><div class="mini"><div id="reason-bulbs" class="bulb-row"></div></div><p>變成練習模式，每顆燈出來不是 0 就是 2，<strong>沒有任何一顆會剛好是 1</strong>，所以「每一顆都一樣」一定不成立 → 一定是 False（不是「有機會」False）。</p></div></details><details class="reason"><summary>選項 C 的 0.5 是什麼</summary><div class="reason-body">那是 Dropout 的關燈機率，不是程式印出來的東西；看到題目問「輸出是什麼」，先看最後一行 print 印的是 True／False 還是數字。</div></details></div></div><p class="bn-note">BatchNorm 也一樣分練習和比賽——練習用這一批的平均與變異數，比賽用累積的長期平均與變異數；忘了 eval() 時，單張圖只能用它自己這一張算平均與變異數，跟練習時整批算出來的可能差很多，結果可能偏掉。</p></div>
 </div></section>
 <section class="slide " id="s6" aria-labelledby="title6" aria-hidden="true" inert><div class="shell"><header class="section-head"><h2 id="title6" tabindex="-1">3 句話帶走</h2></header>
@@ -62,12 +62,12 @@ button:disabled{cursor:default;opacity:.55}button:disabled:hover{background:tran
 <div class="homework"><article class="quiz" id="q-bn" data-answer="B">
 <h3>回家作業 ①</h3><p class="question">附圖程式碼實現的是哪一種技術？</p><details class="code-notes" open><summary>程式與逐行白話</summary><table class="code-table" data-code-block="2"><thead><tr><th>程式</th><th>白話</th></tr></thead><tbody>
 <tr><td><pre><code>def forward(self, x, training=True):</code></pre></td><td>這一層收到一批資料 x，還要知道現在是不是練習</td></tr>
-<tr><td><pre><code>    if training:</code></pre></td><td>如果是練習</td></tr>
-<tr><td><pre><code>        mean, var = x.mean(axis=0), x.var(axis=0)</code></pre></td><td>算「這一批」的平均和變異數</td></tr>
-<tr><td><pre><code>        self.running_mean = 0.9 * self.running_mean + 0.1 * mean</code></pre></td><td>把這一批的平均摻一點進這一層保存的長期平均（累積）</td></tr>
-<tr><td><pre><code>        self.running_var  = 0.9 * self.running_var  + 0.1 * var</code></pre></td><td>變異數也一樣累積</td></tr>
-<tr><td><pre><code>    else:</code></pre></td><td>如果是比賽</td></tr>
-<tr><td><pre><code>        mean, var = self.running_mean, self.running_var</code></pre></td><td>直接用練習時累積的長期平均與變異數</td></tr>
+<tr><td><pre><code>    <mark>if training:</mark></code></pre></td><td>如果是練習</td></tr>
+<tr><td><pre><code>        mean, var = <mark>x.mean(axis=0), x.var(axis=0)</mark></code></pre></td><td>算「這一批」的平均和變異數</td></tr>
+<tr><td><pre><code>        <mark>self.running_mean</mark> = 0.9 * self.running_mean + 0.1 * mean</code></pre></td><td>把這一批的平均摻一點進這一層保存的長期平均（累積）</td></tr>
+<tr><td><pre><code>        <mark>self.running_var</mark>  = 0.9 * self.running_var  + 0.1 * var</code></pre></td><td>變異數也一樣累積</td></tr>
+<tr><td><pre><code>    <mark>else:</mark></code></pre></td><td>如果是比賽</td></tr>
+<tr><td><pre><code>        mean, var = <mark>self.running_mean, self.running_var</mark></code></pre></td><td>直接用練習時累積的長期平均與變異數</td></tr>
 <tr><td><pre><code>    return (x - mean) / np.sqrt(var + 1e-5)</code></pre></td><td>把資料減平均、除以標準差，標準化後送出</td></tr>
 </tbody></table></details>
 <div class="options">
@@ -91,7 +91,7 @@ button:disabled{cursor:default;opacity:.55}button:disabled:hover{background:tran
 <details class="code-notes" open><summary>程式與逐行白話</summary><table class="code-table" data-code-block="3"><thead><tr><th>程式</th><th>白話</th></tr></thead><tbody>
 <tr><td><pre><code>import numpy as np</code></pre></td><td>把 NumPy 工具箱拿進來</td></tr>
 <tr><td><pre><code>x = np.array([-2.0, 0.0, 3.0])</code></pre></td><td>準備三個數：-2、0、3</td></tr>
-<tr><td><pre><code>print(np.maximum(0, x).tolist())</code></pre></td><td>每個數都跟 0 比、留大的那個（負的變 0、正的原樣），印成清單</td></tr>
+<tr><td><pre><code>print(<mark>np.maximum(0, x)</mark>.tolist())</code></pre></td><td>每個數都跟 0 比、留大的那個（負的變 0、正的原樣），印成清單</td></tr>
 </tbody></table></details>
 <div class="options">
 <button type="button" class="option" aria-pressed="false">(A) [0.0, 0.0, 3.0]</button>
@@ -147,8 +147,8 @@ function showSlide(index,focus=false){
   if(c.dataset.state==='ready'&&!reducedMotion.matches)c.play('wave');
  });
 }
-// One independent Bernoulli draw per bulb. Never force a fixed survivor count.
-function sampleBulbs(mode,rng=Math.random){return Array.from({length:8},()=>mode==='train'?(rng()<0.5?0:2):1);}
+// Teaching simplification (PM 2026-11-03): practice mode turns off exactly half (4 of 8), chosen at random; survivors are scaled to 2 so the total stays 8.
+function sampleBulbs(mode,rng=Math.random){if(mode!=='train')return Array(8).fill(1);const idx=[0,1,2,3,4,5,6,7];for(let i=idx.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]];}const off=new Set(idx.slice(0,4));return idx.map((_,i)=>off.has(i)?0:2);}
 function sumBulbs(values){return values.reduce((sum,value)=>sum+value,0);}
 function bulbMarkup(value){return `<div class="bulb" data-value="${value}"><svg viewBox="0 0 80 110" aria-hidden="true"><ellipse class="glow" cx="40" cy="43" rx="36" ry="40"/><path class="glass" d="M40 10C8 9 4 45 23 65c5 5 6 10 6 17h22c0-7 1-12 6-17C76 45 72 9 40 10Z"/><g fill="none" stroke="#746750" stroke-width="1.7" stroke-linecap="round"><path d="m30 83 20 0m-20 5h20m-18 5h16m-13 5h10M35 80l-4-30 9 7 9-7-4 30"/><path d="M22 34c2-9 6-14 13-16" stroke="#fffdf8" stroke-width="3"/></g></svg><strong>${value}</strong></div>`;}
 function renderBulbs(target,values,other=null){
@@ -164,12 +164,12 @@ function predictTwice(){
  const first=sampleBulbs(bulbMode),second=sampleBulbs(bulbMode);
  renderBulbs($('#prediction-first'),first,second);renderBulbs($('#prediction-second'),second,first);
  $('#prediction').hidden=false;$('#predict').setAttribute('aria-expanded','true');
- $('#prediction-note').textContent=bulbMode==='eval'?'比賽：兩次完全相同。':first.every((v,i)=>v===second[i])?'這次兩排剛好相同；各自抽樣也可能相同。':'奶茶棕的位置：兩次亮度不一樣。';
+ $('#prediction-note').textContent=bulbMode==='eval'?'比賽：兩次完全相同。':first.every((v,i)=>v===second[i])?'這次兩排剛好關到同幾顆；再按一次就不同了。':'奶茶棕的位置：兩次亮度不一樣。';
 }
 function setBulbMode(mode){
  bulbMode=mode;
  const values=sampleBulbs(mode);renderBulbs($('#bulbs'),values);
- $('#total').textContent=`總亮度 ${sumBulbs(values)}${mode==='train'?'（平均 8）':''}`;
+ $('#total').textContent=`總亮度 ${sumBulbs(values)}`;
  $('#bulb-mode').textContent=mode==='train'?'練習模式 train()':'比賽模式 eval()';
  $('#train').setAttribute('aria-pressed',String(mode==='train'));$('#eval').setAttribute('aria-pressed',String(mode==='eval'));
  if(!$('#prediction').hidden)predictTwice();
