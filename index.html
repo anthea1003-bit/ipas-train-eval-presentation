@@ -86,7 +86,22 @@ button:disabled{cursor:default;opacity:.55}button:disabled:hover{background:tran
 <button type="button" class="option" aria-pressed="false">(D) 從第二輪起參數不再更新，等同提前停止訓練</button>
 </div>
 <div class="feedback" hidden><p class="result">正解：C</p><p>eval() 只切模式不關梯度，梯度照算、參數照改，但 Dropout 不關燈了、BatchNorm 也不累積了，這兩種防過擬合的效果在後面幾輪都沒了。(A) 優化器不管模式；(B) eval 不擋梯度；(D) 參數照樣更新。</p></div>
-</article></div>
+</article><article class="quiz" id="q-relu" data-answer="A">
+<h3>回家作業 ③</h3><p class="question">執行下列程式，輸出會是什麼？</p>
+<details class="code-notes" open><summary>程式與逐行白話</summary><table class="code-table" data-code-block="3"><thead><tr><th>程式</th><th>白話</th></tr></thead><tbody>
+<tr><td><pre><code>import numpy as np</code></pre></td><td>把 NumPy 工具箱拿進來</td></tr>
+<tr><td><pre><code>x = np.array([-2.0, 0.0, 3.0])</code></pre></td><td>準備三個數：-2、0、3</td></tr>
+<tr><td><pre><code>print(np.maximum(0, x).tolist())</code></pre></td><td>每個數都跟 0 比、留大的那個（負的變 0、正的原樣），印成清單</td></tr>
+</tbody></table></details>
+<div class="options">
+<button type="button" class="option" aria-pressed="false">(A) [0.0, 0.0, 3.0]</button>
+<button type="button" class="option" aria-pressed="false">(B) [-2.0, 0.0, 3.0]</button>
+<button type="button" class="option" aria-pressed="false">(C) [0.0, 0.0, 9.0]</button>
+<button type="button" class="option" aria-pressed="false">(D) [2.0, 0.0, 3.0]</button>
+</div>
+<div class="feedback" hidden><p class="result">正解：A</p><p>這就是 ReLU：max(0, x)，負數變 0、正數原樣、0 還是 0 → [0.0, 0.0, 3.0]。(D) 把 -2 變 2 是絕對值，不是 ReLU；(B) 等於沒處理；(C) 多乘了一次。分辨：np.maximum(0, x) 放兩樣、每格跟 0 比；np.max(x) 放一樣、整排挑一個最大值。</p></div>
+</article>
+</div>
 </div></section>
 </main>
 <button class="edge" id="prev" type="button" tabindex="-1" aria-label="往前"></button><button class="edge" id="next" type="button" tabindex="-1" aria-label="往後"></button>
